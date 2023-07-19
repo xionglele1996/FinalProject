@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import net.R;
 import net.databinding.RiverFragmentPreviewBinding;
-import net.zhichuan.bear.utils.DownloadImageTask;
+import net.zhichuan.bear.utils.DownloadImage;
 import net.zhichuan.bear.utils.ImageEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -71,7 +71,7 @@ public class PreviewFragment extends Fragment {
         retry = binding.riverRetry;
         save = binding.riverSave;
 
-        DownloadImageTask.downloadImage(mWidth, mHeight, binding.riverPreview);
+        DownloadImage.downloadImage(mWidth, mHeight, binding.riverPreview);
 
         retry.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()

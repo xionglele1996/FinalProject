@@ -159,7 +159,7 @@ public class ListFragment extends Fragment {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 ImageEntity image = images.get(position);
 
-                DownloadImageTask.downloadImage(image.getWidth(), image.getHeight(), holder.image);
+                DownloadImage.downloadImage(image.getWidth(), image.getHeight(), holder.image);
 
 
                 holder.width.setText(String.valueOf(image.getWidth()));
