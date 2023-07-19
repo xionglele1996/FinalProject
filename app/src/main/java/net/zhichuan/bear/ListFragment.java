@@ -33,6 +33,7 @@ public class ListFragment extends Fragment {
     private ImageDAO imageDAO;
     private Toolbar toolbar;
     private RecyclerView.Adapter myAdapter;
+    public boolean deleteMode = false;
 
     public ListFragment() {
         // Required empty public constructor
@@ -87,6 +88,8 @@ public class ListFragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
                 return true;
+            } else if (item.getItemId() == R.id.river_delete_image) {
+                deleteMode = true;
             }
             return false;
         });
@@ -147,7 +150,7 @@ public class ListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    static class MyRowHolder extends RecyclerView.ViewHolder {
+    class MyRowHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView width;
         TextView height;
@@ -155,11 +158,20 @@ public class ListFragment extends Fragment {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-//            itemView.setOnClickListener(clk -> {
-//                int position = getAbsoluteAdapterPosition();
-//
-//                ImageEntity selected = images.get(position);
-//            });
+            itemView.setOnClickListener(clk -> {
+                int position = getAdapterPosition();
+
+                if (deleteMode) {
+                    ImageEntity image = images.get(position);
+
+                    images.remove(position);
+                    myAdapter.notifyItemRemoved(position);
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute(() ->
+                                           imageDAO.delete(image));
+                }
+            });
 
             image = itemView.findViewById(R.id.river_row_image);
             width = itemView.findViewById(R.id.river_row_width);
