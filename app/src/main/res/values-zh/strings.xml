@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">航班跟踪平台</string>
+    <string name="matthew_help">帮助</string>
+    <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
+    <string name="lele_searchBtn">查询航班</string>
+    <string name="lele_viewSaveBtn">浏览保存的航班</string>
+    <string name="lele_destinationMsg">"目的的："</string>
+    <string name="lele_terminalMsg">"航站楼："</string>
+    <string name="lele_gateMsg">"登机口："</string>
+    <string name="lele_delayMsg">"延误："</string>
+    <string name="lele_saveFlight">保存航班</string>
+    <string name="lele_resultMsg">查询结果</string>
+    <string name="lele_titleMsg">航班查询</string>>
+</resources>

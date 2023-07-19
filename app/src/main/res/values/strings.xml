@@ -1,5 +1,15 @@
 <resources>
-    <string name="app_name">Final Project</string>
-    <string name="help">Help</string>
+    <string name="app_name">Multi-Tool</string>
+    <string name="matthew_help">Help</string>
+    <string name="lele_enterPrompt">Enter Airport Code (e.g., YOW)</string>
+    <string name="lele_searchBtn">Search Flights</string>
+    <string name="lele_viewSaveBtn">View Saved Flights</string>
+    <string name="lele_destinationMsg">"Destination: "</string>
+    <string name="lele_terminalMsg">"Terminal: "</string>
+    <string name="lele_gateMsg">"Gate: "</string>
+    <string name="lele_delayMsg">"Delay: "</string>
+    <string name="lele_saveFlight">Save Flight</string>
+    <string name="lele_resultMsg">Search Result</string>
+    <string name="lele_titleMsg">Flight Tracker</string>
 
 </resources>

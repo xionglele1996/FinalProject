@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import net.R;
 import net.databinding.RiverFragmentGeneratorBinding;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +41,7 @@ public class GeneratorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -60,7 +61,7 @@ public class GeneratorFragment extends Fragment {
             Toast.makeText(getActivity(), "Generating a " + imageWidth + " x "
                     + imageHeight + " image...", Toast.LENGTH_LONG).show();
 
-            getActivity().getSupportFragmentManager()
+            requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.river_frame, previewFragment)
                     .addToBackStack(null)

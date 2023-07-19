@@ -1,10 +1,4 @@
-package algonquin.cst2335.finalproject;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
+package net.matthew.converter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+
+import net.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,12 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.matthew_activity_main);
 
         editTextAmount = findViewById(R.id.editText_amount);
         spinnerFromCurrency = findViewById(R.id.spinner_from_currency);
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.matthew_menu_main, menu);
         return true;
     }
 
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", null)
                 .show();
     }
+
 
     private void deleteQuery(ConversionQuery conversionQuery) {
         new Thread(() -> {
@@ -183,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject ratesObject = response.getJSONObject("rates");
                         Iterator<String> keys = ratesObject.keys();
 
-                        while(keys.hasNext()) {
+                        while (keys.hasNext()) {
                             String key = keys.next();
                             JSONObject currencyObject = ratesObject.getJSONObject(key);
                             double rate = currencyObject.getDouble("rate");
@@ -210,11 +213,6 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
-
-
-
-
 
 
     private void saveQuery() {
@@ -244,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void loadQueries() {
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
@@ -257,10 +254,4 @@ public class MainActivity extends AppCompatActivity {
             });
         }).start();
     }
-
-
-
-
-
-
 }

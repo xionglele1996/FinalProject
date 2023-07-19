@@ -1,5 +1,7 @@
 package net.zhichuan.bear;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import com.google.android.material.snackbar.Snackbar;
 import net.R;
 import net.databinding.RiverFragmentListBinding;
 import net.databinding.RiverFragmentRowBinding;
@@ -33,6 +36,7 @@ public class ListFragment extends Fragment {
     private ImageDAO imageDAO;
     private Toolbar toolbar;
     private RecyclerView.Adapter myAdapter;
+    public boolean deleteMode = false;
 
     public ListFragment() {
         // Required empty public constructor
@@ -62,6 +66,7 @@ public class ListFragment extends Fragment {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +91,43 @@ public class ListFragment extends Fragment {
                         .replace(R.id.river_frame, GeneratorFragment.newInstance())
                         .addToBackStack(null)
                         .commit();
+                return true;
+            } else if (item.getItemId() == R.id.river_delete_image) {
+                deleteMode = true;
+                toolbar.setTitle("Select Image to Delete:");
+            } else if (item.getItemId() == R.id.river_delete_all) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                        .create();
+                alertDialog.setTitle("Delete All");
+                alertDialog.setCancelable(true);
+                alertDialog.setMessage(
+                        "Are you sure you want to delete all images? This can only be undone for a limited time.");
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                                      (dialog, which) -> {
+                                          ArrayList<ImageEntity> backupImages = new ArrayList<>(images);
+                                          for (ImageEntity image : images) {
+                                              Executor thread = Executors.newSingleThreadExecutor();
+                                              thread.execute(() -> imageDAO.delete(image));
+                                          }
+
+                                          images.clear();
+                                          myAdapter.notifyDataSetChanged();
+
+                                          Snackbar.make(binding.getRoot(), "Deleted all images", Snackbar.LENGTH_LONG)
+                                                  .setAction("Undo", (click) -> {
+                                                      images.addAll(backupImages);
+                                                      myAdapter.notifyDataSetChanged();
+                                                      for (ImageEntity image : backupImages) {
+                                                          Executor thread = Executors.newSingleThreadExecutor();
+                                                          thread.execute(() -> imageDAO.insert(image));
+                                                      }
+                                                  }).show();
+                                      });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                                      (dialog, which) -> dialog.dismiss());
+
+                alertDialog.show();
                 return true;
             }
             return false;
@@ -117,7 +159,7 @@ public class ListFragment extends Fragment {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 ImageEntity image = images.get(position);
 
-                new DownloadImageTask(holder.image).execute(image.getWidth(), image.getHeight());
+                DownloadImageTask.downloadImage(image.getWidth(), image.getHeight(), holder.image);
 
 
                 holder.width.setText(String.valueOf(image.getWidth()));
@@ -147,7 +189,7 @@ public class ListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    static class MyRowHolder extends RecyclerView.ViewHolder {
+    class MyRowHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView width;
         TextView height;
@@ -155,11 +197,34 @@ public class ListFragment extends Fragment {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-//            itemView.setOnClickListener(clk -> {
-//                int position = getAbsoluteAdapterPosition();
-//
-//                ImageEntity selected = images.get(position);
-//            });
+            itemView.setOnClickListener(clk -> {
+                int position = getAdapterPosition();
+
+                if (deleteMode) {
+                    ImageEntity image = images.get(position);
+
+                    images.remove(position);
+                    myAdapter.notifyItemRemoved(position);
+
+                    toolbar.setTitle("Generated Images");
+                    deleteMode = false;
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute(() ->
+                                           imageDAO.delete(image));
+
+//                    give the user a chance to undo the deletion
+                    Snackbar.make(binding.getRoot(), "Image deleted", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", v -> {
+                                images.add(position, image);
+                                myAdapter.notifyItemInserted(position);
+
+                                Executor thread1 = Executors.newSingleThreadExecutor();
+                                thread1.execute(() ->
+                                                        imageDAO.insert(image));
+                            }).show();
+                }
+            });
 
             image = itemView.findViewById(R.id.river_row_image);
             width = itemView.findViewById(R.id.river_row_width);

@@ -3,21 +3,21 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".zhichuan.bear.RowFragment">
+             android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/delete_button">
 
         <ImageView
                 android:id="@+id/river_row_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars"/>
+                tools:src="@tools:sample/avatars"
+                app:layout_constraintStart_toEndOf="@+id/checkBox"
+                app:layout_constraintTop_toTopOf="@+id/checkBox"
+                app:layout_constraintBottom_toBottomOf="@+id/checkBox"/>
 
         <TextView
                 android:id="@+id/river_row_width"
@@ -51,5 +51,13 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5"/>
+
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

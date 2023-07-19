@@ -71,21 +71,17 @@ public class PreviewFragment extends Fragment {
         retry = binding.riverRetry;
         save = binding.riverSave;
 
-        new DownloadImageTask(binding.riverPreview).execute(mWidth, mHeight);
+        DownloadImageTask.downloadImage(mWidth, mHeight, binding.riverPreview);
 
-        retry.setOnClickListener(clk -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.river_frame, GeneratorFragment.newInstance())
-                    .commit();
-        });
+        retry.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.river_frame, GeneratorFragment.newInstance())
+                .commit());
 
-        save.setOnClickListener(clk -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
-                    .commit();
-        });
+        save.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
+                .commit());
 
         return binding.getRoot();
     }
