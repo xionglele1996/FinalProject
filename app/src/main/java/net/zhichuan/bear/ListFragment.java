@@ -207,6 +207,7 @@ public class ListFragment extends Fragment {
                     myAdapter.notifyItemRemoved(position);
 
                     toolbar.setTitle("Generated Images");
+                    deleteMode = false;
 
                     Executor thread = Executors.newSingleThreadExecutor();
                     thread.execute(() ->
