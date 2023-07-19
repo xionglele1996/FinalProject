@@ -206,6 +206,8 @@ public class ListFragment extends Fragment {
                     images.remove(position);
                     myAdapter.notifyItemRemoved(position);
 
+                    toolbar.setTitle("Generated Images");
+
                     Executor thread = Executors.newSingleThreadExecutor();
                     thread.execute(() ->
                                            imageDAO.delete(image));
