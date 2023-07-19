@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/delete_button">
+
+        <ImageView
+                android:id="@+id/river_row_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                tools:src="@tools:sample/avatars"
+                app:layout_constraintStart_toEndOf="@+id/checkBox"
+                app:layout_constraintTop_toTopOf="@+id/checkBox"
+                app:layout_constraintBottom_toBottomOf="@+id/checkBox"/>
+
+        <TextView
+                android:id="@+id/river_row_width"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="Width"
+                android:textSize="34sp"
+                app:layout_constraintBottom_toBottomOf="@+id/river_row_image"
+                app:layout_constraintStart_toEndOf="@+id/river_row_image"
+                app:layout_constraintTop_toTopOf="@+id/river_row_image"/>
+
+        <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="×"
+                android:textSize="34sp"
+                app:layout_constraintBottom_toBottomOf="@+id/river_row_width"
+                app:layout_constraintStart_toEndOf="@+id/river_row_width"
+                app:layout_constraintTop_toTopOf="@+id/river_row_width"/>
+
+        <TextView
+                android:id="@+id/river_row_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Height"
+                android:textSize="34sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="@+id/textView5"/>
+
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
