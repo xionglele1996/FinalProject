@@ -1,5 +1,7 @@
 package net.zhichuan.bear;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,8 @@ public class GeneratorFragment extends Fragment {
     private EditText width;
     private EditText height;
     private Button generate;
+
+    SharedPreferences sharedPreferences;
 
     public GeneratorFragment() {
         // Required empty public constructor
@@ -51,10 +55,26 @@ public class GeneratorFragment extends Fragment {
         height = binding.riverHeight;
         generate = binding.riverGenerate;
 
+
+        sharedPreferences = requireActivity().getSharedPreferences("net.zhichuan.bear",
+                                                                   Activity.MODE_PRIVATE);
+        int savedWidth = sharedPreferences.getInt("imageWidth", 0);
+        int savedHeight = sharedPreferences.getInt("imageHeight", 0);
+
+        if (savedWidth != 0) {
+            width.setText(String.valueOf(savedWidth));
+        }
+
+        if (savedHeight != 0) {
+            height.setText(String.valueOf(savedHeight));
+        }
+
         generate.setOnClickListener(clk -> {
             int imageWidth = Integer.parseInt(String.valueOf(width.getText()));
             int imageHeight = Integer.parseInt(String.valueOf(height.getText()));
 
+            sharedPreferences.edit().putInt("imageWidth", imageWidth).apply();
+            sharedPreferences.edit().putInt("imageHeight", imageHeight).apply();
 //            create the image url and pass it to the preview fragment
             PreviewFragment previewFragment = PreviewFragment.newInstance(imageWidth, imageHeight);
 
