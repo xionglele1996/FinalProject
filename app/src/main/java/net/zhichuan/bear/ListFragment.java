@@ -102,6 +102,7 @@ public class ListFragment extends Fragment {
 
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                                       (dialog, which) -> {
+                                          ArrayList<ImageEntity> backupImages = new ArrayList<>(images);
                                           for (ImageEntity image : images) {
                                               Executor thread = Executors.newSingleThreadExecutor();
                                               thread.execute(() -> imageDAO.delete(image));
@@ -109,11 +110,19 @@ public class ListFragment extends Fragment {
 
                                           images.clear();
                                           myAdapter.notifyDataSetChanged();
+
+                                          Snackbar.make(binding.getRoot(), "Deleted all images", Snackbar.LENGTH_LONG)
+                                                  .setAction("Undo", (click) -> {
+                                                      images.addAll(backupImages);
+                                                      myAdapter.notifyDataSetChanged();
+                                                      for (ImageEntity image : backupImages) {
+                                                          Executor thread = Executors.newSingleThreadExecutor();
+                                                          thread.execute(() -> imageDAO.insert(image));
+                                                      }
+                                                  }).show();
                                       });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                                      (dialog, which) -> {
-                                          dialog.dismiss();
-                                      });
+                                      (dialog, which) -> dialog.dismiss());
 
                 alertDialog.show();
                 return true;
