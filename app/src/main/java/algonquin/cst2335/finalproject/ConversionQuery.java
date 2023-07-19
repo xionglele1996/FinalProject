@@ -12,8 +12,13 @@ public class ConversionQuery {
     private String sourceCurrency;
     private String destinationCurrency;
     private String amount;
+    private String convertedAmount;
 
-    public ConversionQuery(String sourceCurrency, String destinationCurrency, String amount) {
+    public ConversionQuery(String sourceCurrency, String destinationCurrency, String amount, String convertedAmount) {
+        this.sourceCurrency = sourceCurrency;
+        this.destinationCurrency = destinationCurrency;
+        this.amount = amount;
+        this.convertedAmount = convertedAmount;
     }
 
     public int getId() {
@@ -48,5 +53,12 @@ public class ConversionQuery {
         this.amount = amount;
     }
 
-    // Constructor, getters and setters...
+    public String getConvertedAmount() {
+        return convertedAmount;
+    }
+
+    public void setConvertedAmount(String convertedAmount){
+        this.convertedAmount = convertedAmount;
+    }
+
 }
