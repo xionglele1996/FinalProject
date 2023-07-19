@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".PreviewFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/river_preview"
+                android:layout_width="256dp"
+                android:layout_height="256dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="32dp"/>
+
+        <Button
+                android:id="@+id/river_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="128dp"
+                android:text="Try Again"
+                app:layout_constraintEnd_toEndOf="@+id/river_preview"
+                app:layout_constraintStart_toStartOf="@+id/river_preview"
+                app:layout_constraintTop_toBottomOf="@+id/river_preview"/>
+
+        <Button
+                android:id="@+id/river_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Save"
+                app:layout_constraintEnd_toEndOf="@+id/river_retry"
+                app:layout_constraintStart_toStartOf="@+id/river_retry"
+                app:layout_constraintTop_toBottomOf="@+id/river_retry"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
