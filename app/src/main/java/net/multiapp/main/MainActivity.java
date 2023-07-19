@@ -28,5 +28,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, net.matthew.converter.MainActivity.class);
             startActivity(intent);
         });
+
+        apps[1].setOnClickListener(click -> {
+            Intent intent = new Intent(this, net.zhichuan.bear.MainActivity.class);
+            startActivity(intent);
+        });
     }
 }

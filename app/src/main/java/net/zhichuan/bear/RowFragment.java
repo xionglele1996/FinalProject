@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
-import net.zhichuan.bear.databinding.RiverFragmentRowBinding;
+import net.databinding.RiverFragmentRowBinding;
 
 public class RowFragment extends Fragment {
     public RowFragment() {
