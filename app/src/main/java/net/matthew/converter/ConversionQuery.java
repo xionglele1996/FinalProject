@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalproject;
+package net.matthew.converter;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -25,7 +25,7 @@ public class ConversionQuery {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class ConversionQuery {
         return sourceCurrency;
     }
 
-    public void setSourceCurrency(String sourceCurrency){
+    public void setSourceCurrency(String sourceCurrency) {
         this.sourceCurrency = sourceCurrency;
     }
 
@@ -41,7 +41,7 @@ public class ConversionQuery {
         return destinationCurrency;
     }
 
-    public void setDestinationCurrency(String destinationCurrency){
+    public void setDestinationCurrency(String destinationCurrency) {
         this.destinationCurrency = destinationCurrency;
     }
 
@@ -49,7 +49,7 @@ public class ConversionQuery {
         return amount;
     }
 
-    public void setAmount(String amount){
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -57,7 +57,7 @@ public class ConversionQuery {
         return convertedAmount;
     }
 
-    public void setConvertedAmount(String convertedAmount){
+    public void setConvertedAmount(String convertedAmount) {
         this.convertedAmount = convertedAmount;
     }
 

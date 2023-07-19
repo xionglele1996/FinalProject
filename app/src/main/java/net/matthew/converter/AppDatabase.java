@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalproject;
+package net.matthew.converter;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
