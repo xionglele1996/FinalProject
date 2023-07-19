@@ -6,18 +6,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.*;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+
 import net.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonSave;
     private RecyclerView recyclerViewQueries;
     private ConversionQueryAdapter adapter;
+    private ConversionQuery lastConversionResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSave = findViewById(R.id.button_save);
 
         List<String> currencies = getCurrencies();
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
-                                                                 android.R.layout.simple_spinner_item,
-                                                                 currencies);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, currencies);
         spinnerFromCurrency.setAdapter(spinnerAdapter);
         spinnerToCurrency.setAdapter(spinnerAdapter);
 
@@ -73,11 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                                  AppDatabase.class, "conversion_query_database").build();
+                            AppDatabase.class, "conversion_query_database")
+                    .fallbackToDestructiveMigration()
+                    .build();
+
             List<ConversionQuery> conversionQueries = db.conversionQueryDao().getAllQueries();
             runOnUiThread(() -> {
-                adapter = new ConversionQueryAdapter(new ArrayList<>(),
-                                                     this::deleteQuery);  // Initialize with empty list
+                adapter = new ConversionQueryAdapter(new ArrayList<>(), this::deleteQuery);  // Initialize with empty list
                 recyclerViewQueries.setAdapter(adapter);
 
                 loadQueries();
@@ -108,21 +120,48 @@ public class MainActivity extends AppCompatActivity {
     private void showHelpDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Help")
-                .setMessage(
-                        "This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.")
+                .setMessage("This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.")
                 .setPositiveButton("OK", null)
                 .show();
     }
 
+
     private void deleteQuery(ConversionQuery conversionQuery) {
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                                  AppDatabase.class, "conversion_query_database").build();
+                            AppDatabase.class, "conversion_query_database")
+                    .fallbackToDestructiveMigration()
+                    .build();
+
             db.conversionQueryDao().delete(conversionQuery);
-            runOnUiThread(this::loadQueries);
+
+            // Run on UI thread to update RecyclerView and show Snackbar
+            runOnUiThread(() -> {
+                loadQueries();
+
+                // Assuming your activity's root layout has an id of "root_layout"
+                View rootView = findViewById(android.R.id.content);
+
+                // Show a Snackbar with an Undo action
+                Snackbar snackbar = Snackbar.make(rootView, "Query deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", view -> {
+                    // When the Undo action is clicked, re-insert the deleted query
+                    new Thread(() -> {
+                        db.conversionQueryDao().insert(conversionQuery);
+                        runOnUiThread(this::loadQueries);
+                    }).start();
+                });
+                snackbar.show();
+            });
         }).start();
     }
 
+
+//    private void closeDatabase(AppDatabase db) {
+//        if (db.isOpen()) {
+//            db.close();
+//        }
+//    }
 
     private List<String> getCurrencies() {
         // Replace this with your actual list of currencies
@@ -153,24 +192,20 @@ public class MainActivity extends AppCompatActivity {
                             double rate = currencyObject.getDouble("rate");
 
                             double convertedAmount = Double.parseDouble(amount) * rate;
+                            lastConversionResult = new ConversionQuery(sourceCurrency, destinationCurrency, amount, String.valueOf(convertedAmount));
 
-                            ConversionQuery conversionQuery = new ConversionQuery(sourceCurrency,
-                                                                                  destinationCurrency,
-                                                                                  amount,
-                                                                                  String.valueOf(convertedAmount));
-                            // Save the query into SharedPreferences as well
-                            String query = sourceCurrency + "-" + destinationCurrency + "-" + amount;
-                            SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("lastQuery", query);
-                            editor.apply();
-                            Toast.makeText(this, "Query saved", Toast.LENGTH_SHORT).show();
+                            // Update UI on main thread
+                            runOnUiThread(() -> {
+                                // Show the conversion result and the rate in a Toast
+                                Toast.makeText(this, "Converted Amount: " + convertedAmount + "\nRate: " + rate, Toast.LENGTH_SHORT).show();
+                            });
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
+                    Log.d("API_RESPONSE", "Error: " + error.getMessage());
                     // Display the error message in a Toast
                     Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 });
@@ -181,41 +216,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void saveQuery() {
-        String sourceCurrency = spinnerFromCurrency.getSelectedItem().toString();
-        String destinationCurrency = spinnerToCurrency.getSelectedItem().toString();
-        String amount = editTextAmount.getText().toString();
-        String convertedAmount = "YOUR_CONVERTED_AMOUNT"; // replace with the actual converted amount
-
-        if (sourceCurrency.isEmpty() || destinationCurrency.isEmpty() || amount.isEmpty()) {
-            Toast.makeText(this, "Please enter valid data before saving.", Toast.LENGTH_SHORT).show();
+        if (lastConversionResult == null) {
+            Toast.makeText(this, "Please perform a conversion before saving.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ConversionQuery conversionQuery = new ConversionQuery(sourceCurrency,
-                                                              destinationCurrency,
-                                                              amount,
-                                                              convertedAmount);
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                                  AppDatabase.class, "conversion_query_database").build();
-            db.conversionQueryDao().insert(conversionQuery);
+                            AppDatabase.class, "conversion_query_database")
+                    .fallbackToDestructiveMigration()
+                    .build();
+            db.conversionQueryDao().insert(lastConversionResult);
             loadQueries();
         }).start();
 
         // Save the query into SharedPreferences as well
-        String query = sourceCurrency + "-" + destinationCurrency + "-" + amount;
+        String query = lastConversionResult.getSourceCurrency() + "-" + lastConversionResult.getDestinationCurrency() + "-" + lastConversionResult.getAmount();
         SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("lastQuery", query);
         editor.apply();
 
         Toast.makeText(this, "Query saved", Toast.LENGTH_SHORT).show();
+        lastConversionResult = null; // Clear the last conversion result after saving
     }
+
 
     private void loadQueries() {
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                                  AppDatabase.class, "conversion_query_database").build();
+                            AppDatabase.class, "conversion_query_database")
+                    .fallbackToDestructiveMigration()
+                    .build();
             List<ConversionQuery> conversionQueries = db.conversionQueryDao().getAllQueries();
             runOnUiThread(() -> {
                 adapter.updateData(conversionQueries);  // Update the adapter's data
