@@ -94,6 +94,7 @@ public class ListFragment extends Fragment {
                 return true;
             } else if (item.getItemId() == R.id.river_delete_image) {
                 deleteMode = true;
+                toolbar.setTitle("Select Image to Delete:");
             } else if (item.getItemId() == R.id.river_delete_all) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                         .create();
