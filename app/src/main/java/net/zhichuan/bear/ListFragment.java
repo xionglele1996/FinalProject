@@ -1,5 +1,6 @@
 package net.zhichuan.bear;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,6 +66,7 @@ public class ListFragment extends Fragment {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -156,7 +158,7 @@ public class ListFragment extends Fragment {
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 ImageEntity image = images.get(position);
 
-                new DownloadImageTask(holder.image).execute(image.getWidth(), image.getHeight());
+                DownloadImageTask.downloadImage(image.getWidth(), image.getHeight(), holder.image);
 
 
                 holder.width.setText(String.valueOf(image.getWidth()));
