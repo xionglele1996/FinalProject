@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -129,9 +131,28 @@ public class MainActivity extends AppCompatActivity {
                     .build();
 
             db.conversionQueryDao().delete(conversionQuery);
-            runOnUiThread(this::loadQueries);
+
+            // Run on UI thread to update RecyclerView and show Snackbar
+            runOnUiThread(() -> {
+                loadQueries();
+
+                // Assuming your activity's root layout has an id of "root_layout"
+                View rootView = findViewById(android.R.id.content);
+
+                // Show a Snackbar with an Undo action
+                Snackbar snackbar = Snackbar.make(rootView, "Query deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", view -> {
+                    // When the Undo action is clicked, re-insert the deleted query
+                    new Thread(() -> {
+                        db.conversionQueryDao().insert(conversionQuery);
+                        runOnUiThread(this::loadQueries);
+                    }).start();
+                });
+                snackbar.show();
+            });
         }).start();
     }
+
 
 //    private void closeDatabase(AppDatabase db) {
 //        if (db.isOpen()) {
