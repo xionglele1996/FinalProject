@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import com.google.android.material.snackbar.Snackbar;
 import net.R;
 import net.databinding.RiverFragmentListBinding;
 import net.databinding.RiverFragmentRowBinding;
@@ -170,6 +171,17 @@ public class ListFragment extends Fragment {
                     Executor thread = Executors.newSingleThreadExecutor();
                     thread.execute(() ->
                                            imageDAO.delete(image));
+
+//                    give the user a chance to undo the deletion
+                    Snackbar.make(binding.getRoot(), "Image deleted", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", v -> {
+                                images.add(position, image);
+                                myAdapter.notifyItemInserted(position);
+
+                                Executor thread1 = Executors.newSingleThreadExecutor();
+                                thread1.execute(() ->
+                                                        imageDAO.insert(image));
+                            }).show();
                 }
             });
 
