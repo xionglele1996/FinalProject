@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:title="New Image"
+            android:title="New"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/river_new_image"/>
+    <item
+            android:title="Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/river_delete_image"/>
 </menu>
