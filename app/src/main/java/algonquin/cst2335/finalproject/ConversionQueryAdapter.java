@@ -35,9 +35,10 @@ public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQuery
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ConversionQuery conversionQuery = conversionQueries.get(position);
-        String query = conversionQuery.getSourceCurrency() + " " + conversionQuery.getAmount() + " -> " + conversionQuery.getDestinationCurrency();
+        String query = conversionQuery.getSourceCurrency() + " " + conversionQuery.getAmount() + " -> " + conversionQuery.getDestinationCurrency() + " " + conversionQuery.getConvertedAmount();
         holder.textViewQuery.setText(query);
     }
+
 
     @Override
     public int getItemCount() {

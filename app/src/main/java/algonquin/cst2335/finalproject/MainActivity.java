@@ -9,6 +9,7 @@ import androidx.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -19,9 +20,11 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import com.android.volley.Request;
@@ -134,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         String destinationCurrency = spinnerToCurrency.getSelectedItem().toString();
         String amount = editTextAmount.getText().toString();
 
-        String url = "https://api.getgeoapi.com/v2/currency/convert?format=json&from=" + sourceCurrency + "&to=" + destinationCurrency + "&amount=" + amount + "&api_key=YOUR_API_KEY&format=json";
+        String url = "https://api.getgeoapi.com/v2/currency/convert?format=json&from=" + sourceCurrency + "&to=" + destinationCurrency + "&amount=" + amount + "&api_key=fa3353a8571e455f5e31a1686e119caaf59e3b12&format=json";
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -142,10 +145,28 @@ public class MainActivity extends AppCompatActivity {
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, response -> {
+                    Log.d("API_RESPONSE", "Response: " + response.toString());
                     try {
-                        double convertedAmount = response.getDouble("rate");
-                        // Display the converted amount in a Toast
-                        Toast.makeText(this, "Converted amount: " + convertedAmount, Toast.LENGTH_SHORT).show();
+                        JSONObject ratesObject = response.getJSONObject("rates");
+                        Iterator<String> keys = ratesObject.keys();
+
+                        while(keys.hasNext()) {
+                            String key = keys.next();
+                            JSONObject currencyObject = ratesObject.getJSONObject(key);
+                            double rate = currencyObject.getDouble("rate");
+
+                            double convertedAmount = Double.parseDouble(amount) * rate;
+
+                            ConversionQuery conversionQuery = new ConversionQuery(sourceCurrency, destinationCurrency, amount, String.valueOf(convertedAmount));
+                            // Save the query into SharedPreferences as well
+                            String query = sourceCurrency + "-" + destinationCurrency + "-" + amount;
+                            SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("lastQuery", query);
+                            editor.apply();
+                            Toast.makeText(this, "Query saved", Toast.LENGTH_SHORT).show();
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -159,16 +180,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     private void saveQuery() {
         String sourceCurrency = spinnerFromCurrency.getSelectedItem().toString();
         String destinationCurrency = spinnerToCurrency.getSelectedItem().toString();
         String amount = editTextAmount.getText().toString();
+        String convertedAmount = "YOUR_CONVERTED_AMOUNT"; // replace with the actual converted amount
 
-        ConversionQuery conversionQuery = new ConversionQuery(sourceCurrency, destinationCurrency, amount);
+        if(sourceCurrency.isEmpty() || destinationCurrency.isEmpty() || amount.isEmpty()) {
+            Toast.makeText(this, "Please enter valid data before saving.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ConversionQuery conversionQuery = new ConversionQuery(sourceCurrency, destinationCurrency, amount, convertedAmount);
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "conversion_query_database").build();
             db.conversionQueryDao().insert(conversionQuery);
+            loadQueries();
         }).start();
 
         // Save the query into SharedPreferences as well
@@ -180,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Query saved", Toast.LENGTH_SHORT).show();
     }
+
 
     private void loadQueries() {
         new Thread(() -> {
