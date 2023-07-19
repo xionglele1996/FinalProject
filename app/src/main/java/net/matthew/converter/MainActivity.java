@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showHelpDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Help")
+                .setTitle(R.string.matthew_help)
                 .setMessage(
                         "This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.")
                 .setPositiveButton("OK", null)
