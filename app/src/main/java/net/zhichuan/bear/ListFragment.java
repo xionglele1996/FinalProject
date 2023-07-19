@@ -1,5 +1,6 @@
 package net.zhichuan.bear;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,6 +92,31 @@ public class ListFragment extends Fragment {
                 return true;
             } else if (item.getItemId() == R.id.river_delete_image) {
                 deleteMode = true;
+            } else if (item.getItemId() == R.id.river_delete_all) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                        .create();
+                alertDialog.setTitle("Delete All");
+                alertDialog.setCancelable(true);
+                alertDialog.setMessage(
+                        "Are you sure you want to delete all images? This can only be undone for a limited time.");
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                                      (dialog, which) -> {
+                                          for (ImageEntity image : images) {
+                                              Executor thread = Executors.newSingleThreadExecutor();
+                                              thread.execute(() -> imageDAO.delete(image));
+                                          }
+
+                                          images.clear();
+                                          myAdapter.notifyDataSetChanged();
+                                      });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                                      (dialog, which) -> {
+                                          dialog.dismiss();
+                                      });
+
+                alertDialog.show();
+                return true;
             }
             return false;
         });

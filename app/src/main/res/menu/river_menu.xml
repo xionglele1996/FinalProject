@@ -11,4 +11,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/river_delete_image"/>
+    <item
+            android:title="Delete All"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/river_delete_all"/>
 </menu>
