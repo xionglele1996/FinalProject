@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         apps[0].setText("Currency Converter");
         apps[1].setText("Bear Generator");
+        apps[2].setText("Trivia Questions");
 
         apps[0].setOnClickListener(click -> {
             Intent intent = new Intent(this, net.matthew.converter.MainActivity.class);
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         apps[1].setOnClickListener(click -> {
             Intent intent = new Intent(this, net.zhichuan.bear.MainActivity.class);
+            startActivity(intent);
+        });
+        apps[2].setOnClickListener(click -> {
+            Intent intent = new Intent(this, net.lanfei.trivia.MainActivity.class);
             startActivity(intent);
         });
     }
