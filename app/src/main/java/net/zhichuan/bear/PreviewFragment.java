@@ -80,11 +80,13 @@ public class PreviewFragment extends Fragment {
         retry.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.river_frame, GeneratorFragment.newInstance())
+                .addToBackStack("")
                 .commit());
 
         save.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
+                .addToBackStack("")
                 .commit());
 
         return binding.getRoot();

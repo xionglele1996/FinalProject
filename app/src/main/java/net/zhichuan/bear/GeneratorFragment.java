@@ -88,7 +88,7 @@ public class GeneratorFragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.river_frame, previewFragment)
-                    .addToBackStack(null)
+                    .addToBackStack("")
                     .commit();
         });
         return binding.getRoot();
