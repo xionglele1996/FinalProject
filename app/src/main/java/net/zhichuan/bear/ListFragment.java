@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import static androidx.recyclerview.widget.RecyclerView.Adapter;
+import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 public class ListFragment extends Fragment {
     static String ARG_WIDTH = "width";
     static String ARG_HEIGHT = "height";
@@ -31,22 +35,24 @@ public class ListFragment extends Fragment {
     int mHeight;
     boolean shouldDownload = false;
     ArrayList<ImageEntity> images;
-    private RiverFragmentListBinding binding;
+    RiverFragmentListBinding binding;
     private ImageViewModel imageViewModel;
-    private ImageDAO imageDAO;
-    private Toolbar toolbar;
-    private RecyclerView.Adapter myAdapter;
+    ImageDAO imageDAO;
+    Toolbar toolbar;
+    Adapter myAdapter;
     public boolean deleteMode = false;
 
     public ListFragment() {
         // Required empty public constructor
     }
 
+    @NonNull
     public static ListFragment newInstance() {
         return new ListFragment();
     }
 
-    public static ListFragment newInstance(ImageEntity entity) {
+    @NonNull
+    public static ListFragment newInstance(@NonNull ImageEntity entity) {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_WIDTH, entity.getWidth());
@@ -56,7 +62,7 @@ public class ListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -66,10 +72,11 @@ public class ListFragment extends Fragment {
         }
     }
 
+    @NonNull
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = RiverFragmentListBinding.inflate(getLayoutInflater());
 
         imageViewModel = new ImageViewModel();
@@ -189,7 +196,7 @@ public class ListFragment extends Fragment {
         return binding.getRoot();
     }
 
-    class MyRowHolder extends RecyclerView.ViewHolder {
+    class MyRowHolder extends ViewHolder {
         ImageView image;
         TextView width;
         TextView height;

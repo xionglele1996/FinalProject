@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import net.R;
 import net.databinding.RiverFragmentGeneratorBinding;
@@ -32,6 +34,7 @@ public class GeneratorFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @NonNull
     public static GeneratorFragment newInstance() {
         GeneratorFragment fragment = new GeneratorFragment();
         Bundle args = new Bundle();
@@ -40,13 +43,14 @@ public class GeneratorFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    @NonNull
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = RiverFragmentGeneratorBinding.inflate(getLayoutInflater());

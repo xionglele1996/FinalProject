@@ -1,5 +1,6 @@
 package net.zhichuan.bear.utils;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,11 +11,12 @@ import java.util.List;
 @Dao
 public interface ImageDAO {
     @Insert
-    void insert(ImageEntity image);
+    void insert(@NonNull ImageEntity image);
 
+    @NonNull
     @Query("SELECT * FROM ImageEntity")
     List<ImageEntity> getAllImages();
 
     @Delete
-    void delete(ImageEntity image);
+    void delete(@NonNull ImageEntity image);
 }
