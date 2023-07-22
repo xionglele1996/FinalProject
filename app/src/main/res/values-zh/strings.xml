@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">航班跟踪平台</string>
+    <string name="app_name">万用工具包</string>
     <string name="matthew_help">帮助</string>
     <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
     <string name="lele_searchBtn">查询航班</string>
@@ -11,5 +11,22 @@
     <string name="lele_delayMsg">"延误："</string>
     <string name="lele_saveFlight">保存航班</string>
     <string name="lele_resultMsg">查询结果</string>
-    <string name="lele_titleMsg">航班查询</string>>
+    <string name="lele_titleMsg">航班查询</string>
+    <string name="river_help_content">您可以在此处查看生成的图像。 您可以单击它们来查看详细信息。 您可以通过单击右上角的删除按钮来删除它们。 您也可以使用“全部删除”按钮来删除所有图像。</string>
+    <string name="river_help_title">帮助</string>
+    <string name="river_Image_deleted">图片已删除</string>
+    <string name="river_Undo">撤销</string>
+    <string name="river_generated_Images">生成的图片</string>
+    <string name="river_Delete_All">删除所有</string>
+    <string name="river_app_bear_generator">熊大熊二</string>
+    <string name="river_Select_Image_to_Delete">删除所选图片</string>
+    <string name="river_delete_all_prompt">您确定要删除所有图像吗？ 此操作只能在有限的时间内撤消。</string>
+    <string name="river_new_image">生成新图片</string>
+    <string name="river_delete_image">送进垃圾筐</string>
+    <string name="river_imageWidth">图片宽</string>
+    <string name="river_imageHeight">图片高</string>
+    <string name="river_Yes">是</string>
+    <string name="river_No">否</string>
+    <string name="river_Generate">造</string>
+    >
 </resources>

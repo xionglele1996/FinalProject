@@ -62,8 +62,8 @@ public class GeneratorFragment extends Fragment {
 
         sharedPreferences = requireActivity().getSharedPreferences("net.zhichuan.bear",
                                                                    Activity.MODE_PRIVATE);
-        int savedWidth = sharedPreferences.getInt("imageWidth", 0);
-        int savedHeight = sharedPreferences.getInt("imageHeight", 0);
+        int savedWidth = sharedPreferences.getInt(String.valueOf(R.string.river_imageWidth), 0);
+        int savedHeight = sharedPreferences.getInt(String.valueOf(R.string.river_imageHeight), 0);
 
         if (savedWidth != 0) {
             width.setText(String.valueOf(savedWidth));
@@ -77,8 +77,8 @@ public class GeneratorFragment extends Fragment {
             int imageWidth = Integer.parseInt(String.valueOf(width.getText()));
             int imageHeight = Integer.parseInt(String.valueOf(height.getText()));
 
-            sharedPreferences.edit().putInt("imageWidth", imageWidth).apply();
-            sharedPreferences.edit().putInt("imageHeight", imageHeight).apply();
+            sharedPreferences.edit().putInt(String.valueOf(R.string.river_imageWidth), imageWidth).apply();
+            sharedPreferences.edit().putInt(String.valueOf(R.string.river_imageHeight), imageHeight).apply();
 //            create the image url and pass it to the preview fragment
             PreviewFragment previewFragment = PreviewFragment.newInstance(imageWidth, imageHeight);
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -89,7 +90,7 @@ public class ListFragment extends Fragment {
         images = imageViewModel.image.getValue();
 
         toolbar = binding.toolbar;
-        toolbar.setTitle("Generated Images");
+        toolbar.setTitle(R.string.river_generated_Images);
         toolbar.inflateMenu(R.menu.river_menu);
 
         toolbar.setOnMenuItemClickListener(item -> {
@@ -101,16 +102,15 @@ public class ListFragment extends Fragment {
                 return true;
             } else if (item.getItemId() == R.id.river_delete_image) {
                 deleteMode = true;
-                toolbar.setTitle("Select Image to Delete:");
+                toolbar.setTitle(R.string.river_Select_Image_to_Delete);
             } else if (item.getItemId() == R.id.river_delete_all) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                         .create();
-                alertDialog.setTitle("Delete All");
+                alertDialog.setTitle(R.string.river_Delete_All);
                 alertDialog.setCancelable(true);
-                alertDialog.setMessage(
-                        "Are you sure you want to delete all images? This can only be undone for a limited time.");
+                alertDialog.setMessage(getString(R.string.river_delete_all_prompt));
 
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.river_Yes),
                                       (dialog, which) -> {
                                           ArrayList<ImageEntity> backupImages = new ArrayList<>(images);
                                           for (ImageEntity image : images) {
@@ -121,8 +121,8 @@ public class ListFragment extends Fragment {
                                           images.clear();
                                           myAdapter.notifyDataSetChanged();
 
-                                          Snackbar.make(binding.getRoot(), "Deleted all images", Snackbar.LENGTH_LONG)
-                                                  .setAction("Undo", (click) -> {
+                                          Snackbar.make(binding.getRoot(), R.string.river_Delete_All, Snackbar.LENGTH_LONG)
+                                                  .setAction(R.string.river_Undo, (click) -> {
                                                       images.addAll(backupImages);
                                                       myAdapter.notifyDataSetChanged();
                                                       for (ImageEntity image : backupImages) {
@@ -131,11 +131,13 @@ public class ListFragment extends Fragment {
                                                       }
                                                   }).show();
                                       });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.river_No),
                                       (dialog, which) -> dialog.dismiss());
 
                 alertDialog.show();
                 return true;
+            } else if (item.getItemId() == R.id.river_help) {
+                showHelpDialog();
             }
             return false;
         });
@@ -213,7 +215,7 @@ public class ListFragment extends Fragment {
                     images.remove(position);
                     myAdapter.notifyItemRemoved(position);
 
-                    toolbar.setTitle("Generated Images");
+                    toolbar.setTitle(R.string.river_generated_Images);
                     deleteMode = false;
 
                     Executor thread = Executors.newSingleThreadExecutor();
@@ -221,8 +223,8 @@ public class ListFragment extends Fragment {
                                            imageDAO.delete(image));
 
 //                    give the user a chance to undo the deletion
-                    Snackbar.make(binding.getRoot(), "Image deleted", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", v -> {
+                    Snackbar.make(binding.getRoot(), R.string.river_Image_deleted, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.river_Undo, v -> {
                                 images.add(position, image);
                                 myAdapter.notifyItemInserted(position);
 
@@ -237,5 +239,13 @@ public class ListFragment extends Fragment {
             width = itemView.findViewById(R.id.river_row_width);
             height = itemView.findViewById(R.id.river_row_height);
         }
+    }
+
+    private void showHelpDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(requireActivity())
+                .setTitle(R.string.river_help_title)
+                .setMessage(R.string.river_help_content)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }

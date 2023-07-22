@@ -11,5 +11,21 @@
     <string name="lele_saveFlight">Save Flight</string>
     <string name="lele_resultMsg">Search Result</string>
     <string name="lele_titleMsg">Flight Tracker</string>
+    <string name="river_help_content">This is where you can view your generated images. You can click on them to view details. And you can delete them by clicking the delete button in the top right corner. And also you can use the delete all button to delete all images.</string>
+    <string name="river_help_title">Help</string>
+    <string name="river_Image_deleted">Image deleted</string>
+    <string name="river_Undo">Undo</string>
+    <string name="river_generated_Images">generated images</string>
+    <string name="river_Delete_All">Delete All</string>
+    <string name="river_app_bear_generator">Bear Generator</string>
+    <string name="river_Select_Image_to_Delete">Select Image to Delete</string>
+    <string name="river_delete_all_prompt">"                Are you sure you want to delete all images? This can only be undone for a limited time. "</string>
+    <string name="river_new_image">New Image</string>
+    <string name="river_delete_image">Delete Image</string>
+    <string name="river_imageWidth">imageWidth</string>
+    <string name="river_imageHeight">imageHeight</string>
+    <string name="river_Yes">Yes</string>
+    <string name="river_No">No</string>
+    <string name="river_Generate">Generate</string>
 
 </resources>
