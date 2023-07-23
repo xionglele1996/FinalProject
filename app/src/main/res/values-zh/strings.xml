@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">航班跟踪平台</string>
-    <string name="matthew_help">帮助</string>
+    <string name="lele_app_name">航班跟踪平台</string>
     <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
     <string name="lele_searchBtn">查询航班</string>
-    <string name="lele_viewSaveBtn">浏览保存的航班</string>
-    <string name="lele_destinationMsg">"目的的："</string>
-    <string name="lele_terminalMsg">"航站楼："</string>
-    <string name="lele_gateMsg">"登机口："</string>
-    <string name="lele_delayMsg">"延误："</string>
-    <string name="lele_saveFlight">保存航班</string>
-    <string name="lele_resultMsg">查询结果</string>
-    <string name="lele_titleMsg">航班查询</string>>
+    <string name="lele_titleMsg">航班查询</string>
+    <string name="lele_welcomeMessage">欢迎登录航班查询平台</string>
+
+    <string name="lele_lengthErrorMessage">错误！机场码须为三位大写字母。</string>
+    <string name="lele_digitErrorMessage">错误！机场码不能包含字母以外的字符。</string>
+    <string name="lele_searchMsg">查询航班</string>
+    <string name="lele_questionMsg">请确认是否查询该机场航班？</string>
+    <string name="lele_yesBtn">是</string>
+    <string name="lele_noBtn">否</string>
+    <string name="lele_networkErrorMsg">错误！无法获取查询结果。请重试。</string>
+    <string name="lele_retryMsg">重试</string>
+    <string name="lele_help">帮助</string>
+    <string name="lele_helpTitle">用户指南</string>
+    <string name="lele_helpMsg">欢迎使用我们的航班跟踪器应用程序！这款应用程序旨在提供特定机场出发的航班信息。\n\n要开始使用，只需在文本字段中输入有效的机场代码（由3个字母组成），然后按下“搜索”按钮。您将看到从所选机场出发的航班列表。我们希望您会发现这个工具有用并且提供了有价值的信息！</string>
+    <string name="lele_okMsg">好的</string>
+
 </resources>

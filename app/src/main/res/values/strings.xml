@@ -1,15 +1,24 @@
 <resources>
     <string name="app_name">Multi-Tool</string>
     <string name="matthew_help">Help</string>
+    <string name="lele_app_name">Aviation Stack Flight Tracker</string>
     <string name="lele_enterPrompt">Enter Airport Code (e.g., YOW)</string>
     <string name="lele_searchBtn">Search Flights</string>
-    <string name="lele_viewSaveBtn">View Saved Flights</string>
-    <string name="lele_destinationMsg">"Destination: "</string>
-    <string name="lele_terminalMsg">"Terminal: "</string>
-    <string name="lele_gateMsg">"Gate: "</string>
-    <string name="lele_delayMsg">"Delay: "</string>
-    <string name="lele_saveFlight">Save Flight</string>
-    <string name="lele_resultMsg">Search Result</string>
     <string name="lele_titleMsg">Flight Tracker</string>
+    <string name="lele_welcomeMessage">Welcome to Flight Tracker</string>
+
+    <string name="lele_lengthErrorMessage">Error! Airport code must be 3 letters.</string>
+    <string name="lele_digitErrorMessage">Error! Airport code must only contain letters.</string>
+    <string name="lele_searchMsg">Search Flights</string>
+    <string name="lele_questionMsg">Are you sure you want to search flights for this airport?</string>
+    <string name="lele_yesBtn">Yes</string>
+    <string name="lele_noBtn">No</string>
+    <string name="lele_networkErrorMsg">Error while fetching flight data. Please try again.</string>
+    <string name="lele_retryMsg">Retry</string>
+    <string name="lele_help">Help</string>
+    <string name="lele_helpTitle">Flight Tracker User Guide</string>
+    <string name="lele_helpMsg">Welcome to our Flight Tracker app! This application is designed to provide information on flights departing from a specific airport.\n\nTo get started, simply enter a valid airport code (comprised of 3 letters) into the text field and press the \'Search\' button. You will be presented with a list of flights departing from the chosen airport. We hope you find this tool useful and informative!</string>
+    <string name="lele_okMsg">OK</string>
+
 
 </resources>
