@@ -12,4 +12,10 @@
     <string name="lele_saveFlight">保存航班</string>
     <string name="lele_resultMsg">查询结果</string>
     <string name="lele_titleMsg">航班查询</string>>
+
+    <string name="lanfei_help">帮助</string>
+    <string name="lanfei_inputNameMsg">输入姓名</string>
+    <string name="lanfei_searchMsg">获取测试问题</string>
+    <string name="lanfei_qeueryScoresMsg">提取以前测试记录</string>
+    <string name="lanfei_SaveQuizMsg">存储结果</string>
 </resources>

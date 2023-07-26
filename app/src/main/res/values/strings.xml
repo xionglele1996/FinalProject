@@ -12,4 +12,11 @@
     <string name="lele_resultMsg">Search Result</string>
     <string name="lele_titleMsg">Flight Tracker</string>
 
+    // Lanfei Trivia string values
+    <string name="lanfei_help">Help</string>
+    <string name="lanfei_inputNameMsg">Enter Your Name</string>
+    <string name="lanfei_searchMsg">Search Questions</string>
+    <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
+    <string name="lanfei_SaveQuizMsg">Save Quiz</string>
+
 </resources>
