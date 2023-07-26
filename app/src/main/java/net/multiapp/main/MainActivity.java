@@ -2,13 +2,16 @@ package net.multiapp.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import net.R;
 import net.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final TextView[] apps = new TextView[4];
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,34 +19,31 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        apps[0] = binding.app1;
-        apps[1] = binding.app2;
-        apps[2] = binding.app3;
-        apps[3] = binding.app4;
+        toolbar = binding.appSelectionToolbar;
+        setSupportActionBar(toolbar);
+    }
 
-        apps[0].setText("Currency Converter");
-        apps[1].setText("Bear Generator");
-        apps[2].setText("Trivia Questions");
-        apps[3].setText("Flight Tracker");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        apps[0].setOnClickListener(click -> {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.app_currency_converter) {
             Intent intent = new Intent(this, net.matthew.converter.MainActivity.class);
             startActivity(intent);
-        });
-
-        apps[1].setOnClickListener(click -> {
+        } else if (item.getItemId() == R.id.app_bear_generator) {
             Intent intent = new Intent(this, net.zhichuan.bear.MainActivity.class);
             startActivity(intent);
-        });
-
-        apps[2].setOnClickListener(click -> {
+        } else if (item.getItemId() == R.id.app_trivia_question) {
             Intent intent = new Intent(this, net.lanfei.trivia.MainActivity.class);
             startActivity(intent);
-        });
-
-        apps[3].setOnClickListener(click -> {
+        } else if (item.getItemId() == R.id.app_flight_tracker) {
             Intent intent = new Intent(this, net.lele.flighttracker.MainActivity.class);
             startActivity(intent);
-        });
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
