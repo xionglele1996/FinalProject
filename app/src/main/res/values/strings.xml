@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Multi-Tool</string>
+
     <string name="matthew_help">Help</string>
+
+    <string name="lele_app_name">Aviation Stack Flight Tracker</string>
     <string name="lele_enterPrompt">Enter Airport Code (e.g., YOW)</string>
     <string name="lele_searchBtn">Search Flights</string>
     <string name="lele_viewSaveBtn">View Saved Flights</string>
@@ -11,8 +14,41 @@
     <string name="lele_saveFlight">Save Flight</string>
     <string name="lele_resultMsg">Search Result</string>
     <string name="lele_titleMsg">Flight Tracker</string>
+    <string name="lele_welcomeMessage">Welcome to Flight Tracker</string>
+    <string name="lele_lengthErrorMessage">Error! Airport code must be 3 letters.</string>
+    <string name="lele_digitErrorMessage">Error! Airport code must only contain letters.</string>
+    <string name="lele_searchMsg">Search Flights</string>
+    <string name="lele_questionMsg">Are you sure you want to search flights for this airport?</string>
+    <string name="lele_yesBtn">Yes</string>
+    <string name="lele_noBtn">No</string>
+    <string name="lele_networkErrorMsg">Error while fetching flight data. Please try again.</string>
+    <string name="lele_retryMsg">Retry</string>
+    <string name="lele_help">Help</string>
+    <string name="lele_helpTitle">Flight Tracker User Guide</string>
+    <string name="lele_helpMsg">Welcome to our Flight Tracker app! This application is designed to provide information on flights departing from a specific airport.\n\nTo get started, simply enter a valid airport code (comprised of 3 letters) into the text field and press the \'Search\' button. You will be presented with a list of flights departing from the chosen airport. We hope you find this tool useful and informative!</string>
+    <string name="lele_okMsg">OK</string>
 
-    // Lanfei Trivia string values
+    <string name="river_help_content">This is where you can view your generated images. You can click on them to view details. And you can delete them by clicking the delete button in the top right corner. And also you can use the delete all button to delete all images.</string>
+    <string name="river_help_title">Help</string>
+    <string name="river_Image_deleted">Image deleted</string>
+    <string name="river_Undo">Undo</string>
+    <string name="river_generated_Images">generated images</string>
+    <string name="river_Delete_All">Delete All</string>
+    <string name="river_app_bear_generator">Bear Generator</string>
+    <string name="river_Select_Image_to_Delete">Select Image to Delete</string>
+    <string name="river_delete_all_prompt">"                Are you sure you want to delete all images? This can only be undone for a limited time. "</string>
+    <string name="river_new_image">New Image</string>
+    <string name="river_delete_image">Delete Image</string>
+    <string name="river_imageWidth">imageWidth</string>
+    <string name="river_imageHeight">imageHeight</string>
+    <string name="river_Yes">Yes</string>
+    <string name="river_No">No</string>
+    <string name="river_Generate">Generate</string>
+    <string name="river_try_again">Try Again</string>
+    <string name="river_save">Save</string>
+    <string name="river_generating_a">Generating a</string>
+    <string name="river_image">image</string>
+
     <string name="lanfei_help">Help</string>
     <string name="lanfei_inputNameMsg">Enter Your Name</string>
     <string name="lanfei_searchMsg">Search Questions</string>
