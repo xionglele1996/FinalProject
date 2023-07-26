@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">航班跟踪平台</string>
+    <string name="app_name">多功能应用</string>
     <string name="matthew_help">帮助</string>
     <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
     <string name="lele_searchBtn">查询航班</string>
