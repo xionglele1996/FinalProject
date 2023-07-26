@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:title="Currency Converter"
+        android:icon="@drawable/ic_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_currency_converter"
+            app:showAsAction="always"/>
+    <item
+        android:id="@+id/app_bear_generator"
+        android:icon="@drawable/ic_item3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/river_app_bear_generator"
+        app:showAsAction="always" />
+    <item
+            android:title="Tivia Question"
+        android:icon="@drawable/ic_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_trivia_question"
+            app:showAsAction="always"/>
+    <item
+            android:title="Flight Tracker"
+        android:icon="@drawable/ic_item4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_flight_tracker"
+            app:showAsAction="always"/>
+</menu>
