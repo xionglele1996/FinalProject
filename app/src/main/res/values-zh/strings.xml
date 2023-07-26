@@ -47,4 +47,24 @@
     <string name="river_save">藏好了</string>
     <string name="river_generating_a">造一個</string>
     <string name="river_image">图片</string>
+
+    <string name="matthew_enter_amount">输入金额</string>
+    <string name="matthew_convert">转换</string>
+    <string name="matthew_save_query">保存查询</string>
+    <string name="matthew_details">详细</string>
+    <string name="matthew_delete">删除</string>
+    <string name="matthew_source_currency">源货币: </string>
+    <string name="matthew_destination_currency">目标货币: </string>
+    <string name="matthew_amount">金额: </string>
+    <string name="matthew_converted_amount">转换后的金额: </string>
+    <string name="matthew_rate">汇率: </string>
+    <string name="matthew_error">错误: </string>
+    <string name="matthew_please_convert_before_saving">请在保存之前进行转换。</string>
+    <string name="matthew_query_saved">查询已保存</string>
+    <string name="matthew_query_deleted">查询已删除</string>
+    <string name="matthew_undo">撤销</string>
+    <string name="matthew_help_message">这是一个货币转换器。输入金额并选择源货币和目标货币。点击“转换”按钮查看转换结果，点击“保存”按钮保存转换查询。</string>
+    <string name="matthew_ok">确定</string>
+
+
 </resources>
