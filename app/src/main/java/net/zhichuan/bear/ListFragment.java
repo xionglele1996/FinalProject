@@ -245,7 +245,7 @@ public class ListFragment extends Fragment {
         new androidx.appcompat.app.AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.river_help_title)
                 .setMessage(R.string.river_help_content)
-                .setPositiveButton("OK", null)
+                .setPositiveButton(getString(R.string.river_Yes), null)
                 .show();
     }
 }

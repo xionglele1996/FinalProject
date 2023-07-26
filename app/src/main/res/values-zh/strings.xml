@@ -28,5 +28,9 @@
     <string name="river_Yes">是</string>
     <string name="river_No">否</string>
     <string name="river_Generate">造</string>
+    <string name="river_try_again">再來一次</string>
+    <string name="river_save">藏好了</string>
+    <string name="river_generating_a">造一個</string>
+    <string name="river_image">图片</string>
     >
 </resources>

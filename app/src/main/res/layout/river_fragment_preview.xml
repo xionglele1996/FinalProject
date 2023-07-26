@@ -4,7 +4,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".PreviewFragment">
+             tools:context="net.zhichuan.bear.PreviewFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,23 +20,23 @@
                 android:layout_marginTop="32dp"/>
 
         <Button
-                android:id="@+id/river_retry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:text="Try Again"
-                app:layout_constraintEnd_toEndOf="@+id/river_preview"
-                app:layout_constraintStart_toStartOf="@+id/river_preview"
-                app:layout_constraintTop_toBottomOf="@+id/river_preview"/>
+            android:id="@+id/river_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
+            android:text="@string/river_try_again"
+            app:layout_constraintEnd_toEndOf="@+id/river_preview"
+            app:layout_constraintStart_toStartOf="@+id/river_preview"
+            app:layout_constraintTop_toBottomOf="@+id/river_preview" />
 
         <Button
-                android:id="@+id/river_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="Save"
-                app:layout_constraintEnd_toEndOf="@+id/river_retry"
-                app:layout_constraintStart_toStartOf="@+id/river_retry"
-                app:layout_constraintTop_toBottomOf="@+id/river_retry"/>
+            android:id="@+id/river_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/river_save"
+            app:layout_constraintEnd_toEndOf="@+id/river_retry"
+            app:layout_constraintStart_toStartOf="@+id/river_retry"
+            app:layout_constraintTop_toBottomOf="@+id/river_retry" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

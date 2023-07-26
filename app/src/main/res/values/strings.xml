@@ -27,5 +27,9 @@
     <string name="river_Yes">Yes</string>
     <string name="river_No">No</string>
     <string name="river_Generate">Generate</string>
+    <string name="river_try_again">Try Again</string>
+    <string name="river_save">Save</string>
+    <string name="river_generating_a">Generating a</string>
+    <string name="river_image">image</string>
 
 </resources>
