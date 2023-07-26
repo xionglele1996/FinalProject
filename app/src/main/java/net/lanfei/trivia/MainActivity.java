@@ -3,20 +3,53 @@ package net.lanfei.trivia;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import net.R;
 import net.databinding.LanfeiActivityMainBinding;
+import net.matthew.converter.ConversionQuery;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private LanfeiActivityMainBinding binding;
-    private EditText category;
+
+    Toolbar toolbar;
+
+    private Spinner spinnerCategory;
+
+    private Button searchButton;
+    private Button queryScoresButton;
+    private Button saveQuizButton;
+
+    private EditText trivianame;
 
     private RecyclerView.Adapter myAdapter;
     private String triviaUrl = "https://opentdb.com/api.php?amount=10&category=";
@@ -26,127 +59,148 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = LanfeiActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        category = binding.lanfeiCategory;
+
+        toolbar = binding.triviaToolbar;
+        setSupportActionBar(toolbar);
+
+        trivianame = binding.lanfeiTrivianame;
+        spinnerCategory = findViewById(R.id.category);
+        searchButton = findViewById(R.id.lanfeiBtnSearch);
+        queryScoresButton = findViewById(R.id.lanfeiBtnQuery);
+
+        List<String> categories = getCategories();
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        spinnerCategory.setAdapter(spinnerAdapter);
 
         //sharedPreference
         SharedPreferences savedPrefs = getSharedPreferences("myFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = savedPrefs.edit();
-        String code = savedPrefs.getString("Category", "");
-        category.setText(code);
+        String lastUser = savedPrefs.getString("TriviaName", "");
+        String lastTopic = savedPrefs.getString("Topic", "");
+        if (!lastUser.isEmpty()) {
+            trivianame.setText(lastUser);
+            spinnerCategory.setSelection(categories.indexOf(lastTopic));
+        }
 
-        binding.lanfeiBtnSearch.setOnClickListener(clk -> {
-            String value = category.getText().toString().trim();
+        searchButton.setOnClickListener(clk -> {
 
-           /* AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Do you want to continue:" + value)
-                    .setTitle("Question:")
-                    .setNegativeButton("No", (dialog, cl) -> {
-                    })
-                    .setPositiveButton("Yes", (dialog, cl) -> {
-                    })
-                    .create()
-                    .show();
-            */
-            if (!checkCategory(value)) {
-                Snackbar.make(this.getCurrentFocus(),
-                              "Warning: Question Category should be a number between 20 and 30",
-                              Snackbar.LENGTH_LONG).show();
-            } else {
-                editor.putString("Category", value);
-                editor.commit();
-                //make toast
-                Toast.makeText(this,
-                               "Your question category is: " + selectTopic(value),
-                               Toast.LENGTH_LONG).show();
+            String topic = spinnerCategory.getSelectedItem().toString();
+            String categoryNum = getCategoryNumber(spinnerCategory.getSelectedItem().toString());
 
-                triviaUrl += value + "&type=multiple";
-            }
+            // save the selected topic into SharedPreferences
+            editor.putString("Topic", topic);
+            editor.commit();
+
+            Toast.makeText(this,
+                    "You selected topic for the trivia question is: " + topic + "=" + categoryNum,
+                    Toast.LENGTH_LONG).show();
+
+            searchTriviaQuestions(categoryNum);
+
         });
 
-        binding.lanfeiBtnScores.setOnClickListener(clk -> {
-
-            // TODO
+        queryScoresButton.setOnClickListener(clk -> {
             Snackbar.make(this.getCurrentFocus(),
-                          "Show the top 10 high scores from previous users",
-                          Snackbar.LENGTH_LONG).show();
+                    "Show the top 10 scores from previous users",
+                    Snackbar.LENGTH_LONG).show();
         });
 
         binding.lanfeiBtnQuiz.setOnClickListener(clk -> {
-            // TODO
-            Snackbar.make(this.getCurrentFocus(),
-                          "Input your name to start a quiz",
-                          Snackbar.LENGTH_LONG).show();
+
+            // Save the input into SharedPreferences as well
+            String name = trivianame.getText().toString().trim();
+            editor.putString("TriviaName", name);
+            editor.commit();
+
+            int score = 80; // will be calculated
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Save Quiz Score")
+                    .setMessage("Your quiz score is " + score +
+                            ". Save the score into database")
+                    .setPositiveButton("OK", null)
+                    .show();
         });
-    }
-
-    private boolean checkCategory(String value) {
-        if (value == null)
-            return false;
-
-        // validate the number between 20 and 30
-        return (value.matches("2[0-9]|30"));
-    }
-
-    private String selectTopic(String value) {
-        int categoryNum = Integer.valueOf(value);
-        String topic;
-
-        switch (categoryNum) {
-            case 20:
-                topic = "Mythology";
-                break;
-            case 21:
-                topic = "Sports";
-                break;
-            case 22:
-                topic = "Geography";
-                break;
-            case 23:
-                topic = "History";
-                break;
-            case 24:
-                topic = "Politics";
-                break;
-            case 25:
-                topic = "Art";
-                break;
-            case 26:
-                topic = "Celebrities";
-                break;
-            case 27:
-                topic = "Animals";
-                break;
-            case 28:
-                topic = "Vehicles";
-                break;
-            case 29:
-                topic = "Entertainment";
-                break;
-            case 30:
-                topic = "Science";
-                break;
-            default:
-                topic = "Geography";
-        }
-        return topic;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.lanfei_about) {
-            Toast.makeText(getApplicationContext(), "Version 1.0, Trivia Questions created by Fei Lan",
-                           Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        return false;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lanfei_trivia_menu, menu);
-        super.onCreateOptionsMenu(menu);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.trivia_help) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Help")
+                    .setMessage("Trivia questions. \n" +
+                            "Click Display Score button to display the last 10 scores.\n" +
+                            "Select a topic for new quize questions.\n" +
+                            "Click Search Questions to list quiz questions\n" +
+                            "Click Save button to save the quize score.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private List<String> getCategories() {
+        // Replace this with your actual list of categories
+        return new ArrayList<>(Arrays.asList("Mythology", "Sports", "Geography", "History", "Art"));
+    }
+
+    private void searchTriviaQuestions(String categoryNum) {
+        //String categoryNum = getCategoryNumber (spinnerCategory.getSelectedItem().toString());
+        String url = "https://opentdb.com/api.php?amount=5&category=" + categoryNum + "&type=multiple";
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, response -> {
+                    Log.d("API_RESPONSE", "Response: " + response.toString());
+
+                    try {
+                        JSONObject results = response.getJSONObject("results");
+                        Iterator<String> keys = results.keys();
+
+                        while (keys.hasNext()) {
+                            String key = keys.next();
+                            JSONObject questionObj = results.getJSONObject(key);
+                            String question = questionObj.getString("question");
+
+                            // Update UI on main thread
+                            runOnUiThread(() -> {
+                                // Show the conversion result and the rate in a Toast
+                                Toast.makeText(this, "Question: " + question, Toast.LENGTH_SHORT).show();
+                            });
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+                    Log.d("API_RESPONSE", "Error: " + error.getMessage());
+                    // Display the error message in a Toast
+                    Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+        // Add the request to the RequestQueue.
+        //queue.add(jsonObjectRequest);
+
+    }
+
+    private String getCategoryNumber(String category) {
+        if (category.equalsIgnoreCase("Mythology")) return "20";
+        else if (category.equalsIgnoreCase("Sports")) return "21";
+        else if (category.equalsIgnoreCase("Geography")) return "22";
+        else if (category.equalsIgnoreCase("History")) return "23";
+        else if (category.equalsIgnoreCase("Politics")) return "24";
+        else if (category.equalsIgnoreCase("Art")) return "25";
+        else return "22";
+    }
 }
