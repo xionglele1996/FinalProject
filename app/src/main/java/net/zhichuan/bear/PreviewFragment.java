@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import net.R;
 import net.databinding.RiverFragmentPreviewBinding;
@@ -42,6 +44,7 @@ public class PreviewFragment extends Fragment {
      * @param height the height of the image.
      * @return A new instance of fragment PreviewFragment.
      */
+    @NonNull
     public static PreviewFragment newInstance(int width, int height) {
         PreviewFragment fragment = new PreviewFragment();
         Bundle args = new Bundle();
@@ -52,7 +55,7 @@ public class PreviewFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mWidth = getArguments().getInt(ARG_WIDTH);
@@ -60,9 +63,10 @@ public class PreviewFragment extends Fragment {
         }
     }
 
+    @NonNull
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
         binding = RiverFragmentPreviewBinding.inflate(inflater);
@@ -76,11 +80,13 @@ public class PreviewFragment extends Fragment {
         retry.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.river_frame, GeneratorFragment.newInstance())
+                .addToBackStack("")
                 .commit());
 
         save.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
+                .addToBackStack("")
                 .commit());
 
         return binding.getRoot();

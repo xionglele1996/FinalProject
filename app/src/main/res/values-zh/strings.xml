@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">多功能应用</string>
+    <string name="app_name">万用工具包</string>
+
     <string name="matthew_help">帮助</string>
+    <string name="matthew_enter_amount">输入金额</string>
+    <string name="matthew_convert">转换</string>
+    <string name="matthew_save_query">保存查询</string>
+    <string name="matthew_details">详细</string>
+    <string name="matthew_delete">删除</string>
+    <string name="matthew_source_currency">源货币: </string>
+    <string name="matthew_destination_currency">目标货币: </string>
+    <string name="matthew_amount">金额: </string>
+    <string name="matthew_converted_amount">转换后的金额: </string>
+    <string name="matthew_rate">汇率: </string>
+    <string name="matthew_error">错误: </string>
+    <string name="matthew_please_convert_before_saving">请在保存之前进行转换。</string>
+    <string name="matthew_query_saved">查询已保存</string>
+    <string name="matthew_query_deleted">查询已删除</string>
+    <string name="matthew_undo">撤销</string>
+    <string name="matthew_help_message">这是一个货币转换器。输入金额并选择源货币和目标货币。点击“转换”按钮查看转换结果，点击“保存”按钮保存转换查询。</string>
+    <string name="matthew_ok">确定</string>
+
+    <string name="lele_app_name">航班查询软件</string>
     <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
     <string name="lele_searchBtn">查询航班</string>
     <string name="lele_viewSaveBtn">浏览保存的航班</string>
@@ -11,7 +31,41 @@
     <string name="lele_delayMsg">"延误："</string>
     <string name="lele_saveFlight">保存航班</string>
     <string name="lele_resultMsg">查询结果</string>
-    <string name="lele_titleMsg">航班查询</string>>
+    <string name="lele_titleMsg">航班查询</string>
+    <string name="lele_welcomeMessage">欢迎使用航班查询！</string>
+    <string name="lele_lengthErrorMessage">错误！机场码须为三位大写字母。</string>
+    <string name="lele_digitErrorMessage">错误！机场码不能包含字母以外的字符。</string>
+    <string name="lele_searchMsg">查询航班</string>
+    <string name="lele_questionMsg">请确认是否查询该机场航班？</string>
+    <string name="lele_yesBtn">是</string>
+    <string name="lele_noBtn">否</string>
+    <string name="lele_networkErrorMsg">错误！无法获取查询结果。请重试。</string>
+    <string name="lele_retryMsg">重试</string>
+    <string name="lele_help">帮助</string>
+    <string name="lele_helpTitle">用户指南</string>
+    <string name="lele_helpMsg">欢迎使用我们的航班跟踪器应用程序！这款应用程序旨在提供特定机场出发的航班信息。\n\n要开始使用，只需在文本字段中输入有效的机场代码（由3个字母组成），然后按下“搜索”按钮。您将看到从所选机场出发的航班列表。我们希望您会发现这个工具有用并且提供了有价值的信息！</string>
+    <string name="lele_okMsg">好的</string>
+
+    <string name="river_help_content">您可以在此处查看生成的图像。 您可以单击它们来查看详细信息。 您可以通过单击右上角的删除按钮来删除它们。 您也可以使用“全部删除”按钮来删除所有图像。</string>
+    <string name="river_help_title">帮助</string>
+    <string name="river_Image_deleted">图片已删除</string>
+    <string name="river_Undo">撤销</string>
+    <string name="river_generated_Images">生成的图片</string>
+    <string name="river_Delete_All">删除所有</string>
+    <string name="river_app_bear_generator">熊大熊二</string>
+    <string name="river_Select_Image_to_Delete">删除所选图片</string>
+    <string name="river_delete_all_prompt">您确定要删除所有图像吗？ 此操作只能在有限的时间内撤消。</string>
+    <string name="river_new_image">生成新图片</string>
+    <string name="river_delete_image">送进垃圾筐</string>
+    <string name="river_imageWidth">图片宽</string>
+    <string name="river_imageHeight">图片高</string>
+    <string name="river_Yes">是</string>
+    <string name="river_No">否</string>
+    <string name="river_Generate">造</string>
+    <string name="river_try_again">再來一次</string>
+    <string name="river_save">藏好了</string>
+    <string name="river_generating_a">造一個</string>
+    <string name="river_image">图片</string>
 
     <string name="lanfei_help">帮助</string>
     <string name="lanfei_inputNameMsg">输入姓名</string>

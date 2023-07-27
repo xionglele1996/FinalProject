@@ -18,6 +18,7 @@ public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQuery
 
     public interface OnItemClickListener {
         void onItemClick(ConversionQuery conversionQuery);
+        void onItemDetailClick(ConversionQuery conversionQuery);
     }
 
     public ConversionQueryAdapter(List<ConversionQuery> conversionQueries, OnItemClickListener onItemClickListener) {
@@ -56,15 +57,20 @@ public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQuery
 
         private final TextView textViewQuery;
         private final Button buttonDelete;
+        private final Button buttonDetail;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             textViewQuery = itemView.findViewById(R.id.textView_query);
             buttonDelete = itemView.findViewById(R.id.button_delete);
+            buttonDetail = itemView.findViewById(R.id.button_detail);
 
             buttonDelete.setOnClickListener(v -> onItemClickListener.onItemClick(conversionQueries.get(
                     getAdapterPosition())));
+            buttonDetail.setOnClickListener(v -> onItemClickListener.onItemDetailClick(conversionQueries.get(getAdapterPosition())));
+
         }
     }
+
 }
 

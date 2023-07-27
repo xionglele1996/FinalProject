@@ -3,7 +3,7 @@ package net.matthew.converter;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {ConversionQuery.class}, version = 2)
+@Database(entities = {ConversionQuery.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ConversionQueryDao conversionQueryDao();
 
