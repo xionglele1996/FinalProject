@@ -4,25 +4,29 @@ import java.io.Serializable;
 
 public class Flight implements Serializable {
     private String flightNumber;
-    private String status;
+    private String destinationAirport;
+    private String terminal;
     private String gate;
     private int delay;
-    private String airlineName;
 
-    public Flight(String flightNumber, String status, String gate, int delay, String airlineName) {
+    public Flight(String destinationAirport, String terminal, String gate, int delay, String flightNumber) {
         this.flightNumber = flightNumber;
-        this.status = status;
+        this.destinationAirport = destinationAirport;
+        this.terminal = terminal;
         this.gate = gate;
         this.delay = delay;
-        this.airlineName = airlineName;
     }
 
     public String getFlightNumber() {
         return flightNumber;
     }
 
-    public String getStatus() {
-        return status;
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public String getTerminal() {
+        return terminal;
     }
 
     public String getGate() {
@@ -32,9 +36,4 @@ public class Flight implements Serializable {
     public int getDelay() {
         return delay;
     }
-
-    public String getAirlineName() {
-        return airlineName;
-    }
 }
-
