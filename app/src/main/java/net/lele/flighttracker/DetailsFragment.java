@@ -4,16 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import net.databinding.LeleFlightDetailsBinding;
+import net.lele.flighttracker.data.FlightViewModel;
 
 public class DetailsFragment extends Fragment {
     private static final String ARG_FLIGHT = "flight";
 
     private Flight selectedFlight;
+
+    private FlightViewModel flightViewModel;
 
     public static DetailsFragment newInstance(Flight flight) {
         DetailsFragment fragment = new DetailsFragment();
@@ -32,6 +37,10 @@ public class DetailsFragment extends Fragment {
         if (getArguments() != null) {
             selectedFlight = (Flight) getArguments().getSerializable(ARG_FLIGHT);
         }
+
+        // Initialize the ViewModel
+        flightViewModel = new ViewModelProvider(this).get(FlightViewModel.class);
+
     }
 
     @Override
@@ -49,6 +58,18 @@ public class DetailsFragment extends Fragment {
         } else {
             binding.tvDelay.setText("Flight is on time for departure.");
         }
+
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // save the flight to database
+                flightViewModel.insertFlight(selectedFlight);
+
+                // display success message
+                Toast.makeText(getActivity(), "Flight saved successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 
         return binding.getRoot();

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -26,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 import net.R;
 
 import net.databinding.LeleActivityMainBinding;
+import net.lele.flighttracker.data.FlightViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private JsonObjectRequest jsonObjectRequest;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("FlightTrackerPrefs", MODE_PRIVATE);
+
+
 
         String savedAirportCode = sharedPreferences.getString("airportCode", "");
         binding.airportCodeEditText.setText(savedAirportCode);
@@ -85,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton(R.string.lele_noBtn, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
+            }
+        });
+
+        binding.btnViewSavedFlights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SavedFlightsActivity.class);
+                startActivity(intent);
             }
         });
     }

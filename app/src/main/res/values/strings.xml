@@ -19,6 +19,8 @@
     <string name="lele_helpTitle">Flight Tracker User Guide</string>
     <string name="lele_helpMsg">Welcome to our Flight Tracker app! This application is designed to provide information on flights departing from a specific airport.\n\nTo get started, simply enter a valid airport code (comprised of 3 letters) into the text field and press the \'Search\' button. You will be presented with a list of flights departing from the chosen airport. We hope you find this tool useful and informative!</string>
     <string name="lele_okMsg">OK</string>
+    <string name="lele_saveMsg">SAVE</string>
+    <string name="lele_viewSavedFlightsMsg">View Saved Flights</string>
 
 
 </resources>
