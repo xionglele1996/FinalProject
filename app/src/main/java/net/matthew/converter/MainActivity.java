@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConversionQueryAdapter.OnItemClickListener {
 
     private EditText editTextAmount;
     private Spinner spinnerFromCurrency;
@@ -89,17 +89,49 @@ public class MainActivity extends AppCompatActivity {
 
             List<ConversionQuery> conversionQueries = db.conversionQueryDao().getAllQueries();
             runOnUiThread(() -> {
-                adapter = new ConversionQueryAdapter(new ArrayList<>(), this::deleteQuery);  // Initialize with empty list
-                recyclerViewQueries.setAdapter(adapter);
+                adapter = new ConversionQueryAdapter(new ArrayList<>(), new ConversionQueryAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(ConversionQuery conversionQuery) {
+                        deleteQuery(conversionQuery);
+                    }
 
-                loadQueries();
+                    @Override
+                    public void onItemDetailClick(ConversionQuery conversionQuery) {
+                        showDetail(conversionQuery);
+                    }
+                });
+                recyclerViewQueries.setAdapter(adapter);
+                adapter.updateData(conversionQueries);  // Update the adapter's data
             });
         }).start();
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
+    }
+
+    public void showDetail(ConversionQuery conversionQuery) {
+        ConversionDetailFragment detailFragment = ConversionDetailFragment.newInstance(conversionQuery);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, detailFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
+
+    @Override
+    public void onItemDetailClick(ConversionQuery conversionQuery) {
+        showDetail(conversionQuery);
+    }
+
+    @Override
+    public void onItemClick(ConversionQuery conversionQuery) {
+        // Do nothing
     }
 
     @Override
@@ -119,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showHelpDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Help")
-                .setMessage("This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.")
-                .setPositiveButton("OK", null)
+                .setTitle(getString(R.string.matthew_help))
+                .setMessage(getString(R.string.matthew_help_message))
+                .setPositiveButton(getString(R.string.matthew_ok), null)
                 .show();
     }
 
@@ -143,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
                 View rootView = findViewById(android.R.id.content);
 
                 // Show a Snackbar with an Undo action
-                Snackbar snackbar = Snackbar.make(rootView, "Query deleted", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Undo", view -> {
+                Snackbar snackbar = Snackbar.make(rootView, getString(R.string.matthew_query_deleted), Snackbar.LENGTH_LONG);
+                snackbar.setAction(getString(R.string.matthew_undo), view -> {
                     // When the Undo action is clicked, re-insert the deleted query
                     new Thread(() -> {
                         db.conversionQueryDao().insert(conversionQuery);
@@ -197,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                             // Update UI on main thread
                             runOnUiThread(() -> {
                                 // Show the conversion result and the rate in a Toast
-                                Toast.makeText(this, "Converted Amount: " + convertedAmount + "\nRate: " + rate, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.matthew_converted_amount) + convertedAmount + getString(R.string.matthew_rate) + rate, Toast.LENGTH_SHORT).show();
                             });
                         }
 
@@ -207,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 }, error -> {
                     Log.d("API_RESPONSE", "Error: " + error.getMessage());
                     // Display the error message in a Toast
-                    Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.matthew_error) + error.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
         // Add the request to the RequestQueue.
@@ -217,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveQuery() {
         if (lastConversionResult == null) {
-            Toast.makeText(this, "Please perform a conversion before saving.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.matthew_please_convert_before_saving), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -237,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("lastQuery", query);
         editor.apply();
 
-        Toast.makeText(this, "Query saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.matthew_query_saved), Toast.LENGTH_SHORT).show();
         lastConversionResult = null; // Clear the last conversion result after saving
     }
 
