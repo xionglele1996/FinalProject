@@ -38,10 +38,9 @@ public class ListFragment extends Fragment {
     boolean shouldDownload = false;
     ArrayList<ImageEntity> images;
     RiverFragmentListBinding binding;
-    private ImageViewModel imageViewModel;
     ImageDAO imageDAO;
     Toolbar toolbar;
-    Adapter myAdapter;
+    Adapter<MyRowHolder> myAdapter;
     public boolean deleteMode = false;
 
     public ListFragment() {
@@ -81,7 +80,7 @@ public class ListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = RiverFragmentListBinding.inflate(getLayoutInflater());
 
-        imageViewModel = new ImageViewModel();
+        ImageViewModel imageViewModel = new ImageViewModel();
 
         ImageDatabase imageDatabase = Room.databaseBuilder(requireActivity().getApplicationContext(),
                                                            ImageDatabase.class,
@@ -198,6 +197,8 @@ public class ListFragment extends Fragment {
                                    imageDAO.insert(image));
 
             myAdapter.notifyItemInserted(images.size());
+
+            shouldDownload = false;
         }
 
         return binding.getRoot();
