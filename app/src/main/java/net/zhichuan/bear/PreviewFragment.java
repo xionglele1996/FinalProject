@@ -15,6 +15,8 @@ import net.zhichuan.bear.utils.DownloadImage;
 import net.zhichuan.bear.utils.ImageEntity;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PreviewFragment#newInstance} factory method to
@@ -85,7 +87,8 @@ public class PreviewFragment extends Fragment {
 
         save.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
+                .replace(R.id.river_frame,
+                         ListFragment.newInstance(new ImageEntity(mWidth, mHeight, new Date().getTime())))
                 .addToBackStack("")
                 .commit());
 

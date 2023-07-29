@@ -6,8 +6,10 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
 public class DownloadImage {
+    public static final String DOWNLOAD_URL = "https://placebear.com";
+
     public static void downloadImage(int width, int height, @NonNull ImageView imageView) {
-        String URL = "https://placebear.com/" + width + "/" + height;
+        String URL = DOWNLOAD_URL + "/" + width + "/" + height;
 
         ImageRequest request = new ImageRequest(URL,
                                                 imageView::setImageBitmap,

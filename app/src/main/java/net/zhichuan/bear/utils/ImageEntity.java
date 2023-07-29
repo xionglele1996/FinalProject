@@ -16,9 +16,13 @@ public class ImageEntity {
     @ColumnInfo(name = "height")
     protected int height;
 
-    public ImageEntity(int width, int height) {
+    @ColumnInfo(name = "time")
+    protected long time;
+
+    public ImageEntity(int width, int height, long time) {
         this.width = width;
         this.height = height;
+        this.time = time;
     }
 
     public int getWidth() {
@@ -27,5 +31,9 @@ public class ImageEntity {
 
     public int getHeight() {
         return height;
+    }
+
+    public long getTime() {
+        return time;
     }
 }

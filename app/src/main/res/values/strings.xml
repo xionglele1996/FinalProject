@@ -65,6 +65,8 @@
     <string name="river_save">Save</string>
     <string name="river_generating_a">Generating a</string>
     <string name="river_image">image</string>
+    <string name="river_details_date">Creation date:</string>
+    <string name="river_details_link">Link:</string>
 
     <string name="lanfei_help">Help</string>
     <string name="lanfei_inputNameMsg">Enter Your Name</string>

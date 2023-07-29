@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,12 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import com.google.android.material.snackbar.Snackbar;
+import net.DetailsFragment;
 import net.R;
 import net.databinding.RiverFragmentListBinding;
 import net.databinding.RiverFragmentRowBinding;
 import net.zhichuan.bear.utils.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -84,7 +85,9 @@ public class ListFragment extends Fragment {
 
         ImageDatabase imageDatabase = Room.databaseBuilder(requireActivity().getApplicationContext(),
                                                            ImageDatabase.class,
-                                                           "image-db").build();
+                                                           "image-db")
+                .fallbackToDestructiveMigration()
+                .build();
         imageDAO = imageDatabase.imageDAO();
 
         images = imageViewModel.image.getValue();
@@ -121,7 +124,9 @@ public class ListFragment extends Fragment {
                                           images.clear();
                                           myAdapter.notifyDataSetChanged();
 
-                                          Snackbar.make(binding.getRoot(), R.string.river_Delete_All, Snackbar.LENGTH_LONG)
+                                          Snackbar.make(binding.getRoot(),
+                                                        R.string.river_Delete_All,
+                                                        Snackbar.LENGTH_LONG)
                                                   .setAction(R.string.river_Undo, (click) -> {
                                                       images.addAll(backupImages);
                                                       myAdapter.notifyDataSetChanged();
@@ -184,7 +189,7 @@ public class ListFragment extends Fragment {
         binding.riverRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
 
         if (shouldDownload) {
-            ImageEntity image = new ImageEntity(mWidth, mHeight);
+            ImageEntity image = new ImageEntity(mWidth, mHeight, new Date().getTime());
 
             images.add(image);
 
@@ -209,7 +214,16 @@ public class ListFragment extends Fragment {
             itemView.setOnClickListener(clk -> {
                 int position = getAdapterPosition();
 
-                if (deleteMode) {
+                if (!deleteMode) {
+                    ImageEntity image = images.get(position);
+                    requireActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.river_frame,
+                                     DetailsFragment.newInstance(image.getWidth(),
+                                                                 image.getHeight(),
+                                                                 image.getTime()))
+                            .addToBackStack(null)
+                            .commit();
+                } else {
                     ImageEntity image = images.get(position);
 
                     images.remove(position);
