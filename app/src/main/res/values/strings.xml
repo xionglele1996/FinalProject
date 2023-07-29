@@ -2,6 +2,23 @@
     <string name="app_name">Multi-Tool</string>
 
     <string name="matthew_help">Help</string>
+    <string name="matthew_enter_amount">Enter amount</string>
+    <string name="matthew_convert">Convert</string>
+    <string name="matthew_save_query">Save Query</string>
+    <string name="matthew_details">Details</string>
+    <string name="matthew_delete">Delete</string>
+    <string name="matthew_source_currency">Source Currency: </string>
+    <string name="matthew_destination_currency">Destination Currency: </string>
+    <string name="matthew_amount">Amount: </string>
+    <string name="matthew_converted_amount">Converted Amount: </string>
+    <string name="matthew_rate">Rate: </string>
+    <string name="matthew_error">Error: </string>
+    <string name="matthew_please_convert_before_saving">Please perform a conversion before saving.</string>
+    <string name="matthew_query_saved">Query saved</string>
+    <string name="matthew_query_deleted">Query deleted</string>
+    <string name="matthew_undo">Undo</string>
+    <string name="matthew_help_message">This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.</string>
+    <string name="matthew_ok">OK</string>
 
     <string name="lele_app_name">Aviation Stack Flight Tracker</string>
     <string name="lele_enterPrompt">Enter Airport Code (e.g., YOW)</string>
