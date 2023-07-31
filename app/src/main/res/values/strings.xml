@@ -2,6 +2,23 @@
     <string name="app_name">Multi-Tool</string>
 
     <string name="matthew_help">Help</string>
+    <string name="matthew_enter_amount">Enter amount</string>
+    <string name="matthew_convert">Convert</string>
+    <string name="matthew_save_query">Save Query</string>
+    <string name="matthew_details">Details</string>
+    <string name="matthew_delete">Delete</string>
+    <string name="matthew_source_currency">Source Currency: </string>
+    <string name="matthew_destination_currency">Destination Currency: </string>
+    <string name="matthew_amount">Amount: </string>
+    <string name="matthew_converted_amount">Converted Amount: </string>
+    <string name="matthew_rate">Rate: </string>
+    <string name="matthew_error">Error: </string>
+    <string name="matthew_please_convert_before_saving">Please perform a conversion before saving.</string>
+    <string name="matthew_query_saved">Query saved</string>
+    <string name="matthew_query_deleted">Query deleted</string>
+    <string name="matthew_undo">Undo</string>
+    <string name="matthew_help_message">This is a currency converter. Enter an amount and select the source and destination currencies. Click the Convert button to see the conversion result, and click the Save button to save the conversion query.</string>
+    <string name="matthew_ok">OK</string>
 
     <string name="lele_app_name">Aviation Stack Flight Tracker</string>
     <string name="lele_enterPrompt">Enter Airport Code (e.g., YOW)</string>
@@ -28,7 +45,6 @@
     <string name="lele_helpMsg">Welcome to our Flight Tracker app! This application is designed to provide information on flights departing from a specific airport.\n\nTo get started, simply enter a valid airport code (comprised of 3 letters) into the text field and press the \'Search\' button. You will be presented with a list of flights departing from the chosen airport. We hope you find this tool useful and informative!</string>
     <string name="lele_okMsg">OK</string>
 
-<<<<<<<<< Temporary merge branch 1
     <string name="river_help_content">This is where you can view your generated images. You can click on them to view details. And you can delete them by clicking the delete button in the top right corner. And also you can use the delete all button to delete all images.</string>
     <string name="river_help_title">Help</string>
     <string name="river_Image_deleted">Image deleted</string>
@@ -49,13 +65,14 @@
     <string name="river_save">Save</string>
     <string name="river_generating_a">Generating a</string>
     <string name="river_image">image</string>
-=========
+
     // Lanfei Trivia string values
     <string name="lanfei_help">Help</string>
     <string name="lanfei_inputNameMsg">Enter Your Name</string>
     <string name="lanfei_searchMsg">Search Questions</string>
     <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
     <string name="lanfei_SaveQuizMsg">Save Quiz</string>
+    <string name="lanfei_amountMsg">Amount (1-10)</string>
+    <string name="lanfei_nextQuestionMsg">Next Question</string>
 
->>>>>>>>> Temporary merge branch 2
 </resources>
