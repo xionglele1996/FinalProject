@@ -4,24 +4,24 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "TriviaScore")
 public class TriviaScore {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
 
     @ColumnInfo(name = "username")
-    protected int username;
+    protected String username;
 
     @ColumnInfo(name = "score")
     protected int score;
 
-    public TriviaScore(int username, int score) {
+    public TriviaScore(String username, int score) {
         this.username = username;
         this.score = score;
     }
 
-    public int getUsername() {
+    public String getUsername() {
         return username;
     }
 

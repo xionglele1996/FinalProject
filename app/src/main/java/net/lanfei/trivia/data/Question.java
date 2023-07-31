@@ -3,12 +3,27 @@ package net.lanfei.trivia.data;
 import java.util.ArrayList;
 
 public class Question {
-    public String category;
-    public String type;
-    public String difficulty;
-    public String question;
-    public String correct_answer;
-    ArrayList<String> incorrect_answers;
+    private String question;
+    private String correctAnswer;
+    private String [] options;
+
+    void Question(String question, String answer, String[] options) {
+        this.question = question;
+        this.correctAnswer = answer;
+        this.options = options;
+    }
+
+    String getQuestion() {
+        return question;
+    }
+
+    String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    String [] getOptions() {
+        return options;
+    }
 }
 
 //only test

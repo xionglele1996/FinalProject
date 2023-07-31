@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.lanfei.trivia.TriviaQuestionActivity">
+
+    <!-- Question TextView -->
+    <TextView
+        android:id="@+id/questionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What is the capital of France?"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Option 1 RadioButton -->
+    <RadioButton
+        android:id="@+id/option1RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Option 1"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/questionTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Option 2 RadioButton -->
+    <RadioButton
+        android:id="@+id/option2RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Option 2"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/option1RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Option 3 RadioButton -->
+    <RadioButton
+        android:id="@+id/option3RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Option 3"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/option2RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Option 4 RadioButton -->
+    <RadioButton
+        android:id="@+id/option4RadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Option 4"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/option3RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"/>
+
+    <!-- Next Button -->
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lanfei_nextQuestionMsg"
+        app:layout_constraintTop_toBottomOf="@id/option4RadioButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

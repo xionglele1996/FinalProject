@@ -50,9 +50,9 @@
     <string name="river_image">image</string>
 
     <string name="lanfei_help">Help</string>
-    <string name="lanfei_inputNameMsg">Enter Your Name</string>
+    <string name="lanfei_amountMsg">Amount (1-10)</string>
     <string name="lanfei_searchMsg">Search Questions</string>
-    <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
-    <string name="lanfei_SaveQuizMsg">Save Quiz</string>
-
+    <string name="lanfei_qeueryScoresMsg">Query Scores</string>
+    <string name="lanfei_SaveQuizMsg">Save Score</string>
+    <string name="lanfei_nextQuestionMsg">Next Question</string>
 </resources>
