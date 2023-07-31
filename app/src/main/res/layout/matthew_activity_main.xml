@@ -16,12 +16,13 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <EditText
-            android:id="@+id/editText_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter amount"
-            android:inputType="numberDecimal"
-            android:layout_below="@id/toolbar"/>
+        android:id="@+id/editText_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/matthew_enter_amount"
+        android:inputType="numberDecimal"
+        android:layout_below="@id/toolbar"/>
+
 
     <Spinner
             android:id="@+id/spinner_from_currency"
@@ -38,22 +39,22 @@
             android:layout_marginTop="16dp"/>
 
     <Button
-            android:id="@+id/button_convert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/spinner_to_currency"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Convert"/>
+        android:id="@+id/button_convert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_to_currency"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/matthew_convert"/>
 
     <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_convert"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Save Query"/>
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_convert"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/matthew_save_query"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_queries"
@@ -61,6 +62,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/button_save"
             android:layout_marginTop="16dp"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </RelativeLayout>

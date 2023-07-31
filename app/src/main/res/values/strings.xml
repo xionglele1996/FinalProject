@@ -28,6 +28,7 @@
     <string name="lele_helpMsg">Welcome to our Flight Tracker app! This application is designed to provide information on flights departing from a specific airport.\n\nTo get started, simply enter a valid airport code (comprised of 3 letters) into the text field and press the \'Search\' button. You will be presented with a list of flights departing from the chosen airport. We hope you find this tool useful and informative!</string>
     <string name="lele_okMsg">OK</string>
 
+<<<<<<<<< Temporary merge branch 1
     <string name="river_help_content">This is where you can view your generated images. You can click on them to view details. And you can delete them by clicking the delete button in the top right corner. And also you can use the delete all button to delete all images.</string>
     <string name="river_help_title">Help</string>
     <string name="river_Image_deleted">Image deleted</string>
@@ -48,11 +49,13 @@
     <string name="river_save">Save</string>
     <string name="river_generating_a">Generating a</string>
     <string name="river_image">image</string>
-
+=========
+    // Lanfei Trivia string values
     <string name="lanfei_help">Help</string>
-    <string name="lanfei_amountMsg">Amount (1-10)</string>
+    <string name="lanfei_inputNameMsg">Enter Your Name</string>
     <string name="lanfei_searchMsg">Search Questions</string>
-    <string name="lanfei_qeueryScoresMsg">Query Scores</string>
-    <string name="lanfei_SaveQuizMsg">Save Score</string>
-    <string name="lanfei_nextQuestionMsg">Next Question</string>
+    <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
+    <string name="lanfei_SaveQuizMsg">Save Quiz</string>
+
+>>>>>>>>> Temporary merge branch 2
 </resources>

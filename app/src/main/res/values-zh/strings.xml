@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">航班跟踪平台</string>
+<<<<<<<<< Temporary merge branch 1
+    <string name="app_name">万用工具包</string>
+
+=========
+    <string name="app_name">多功能应用</string>
+>>>>>>>>> Temporary merge branch 2
     <string name="matthew_help">帮助</string>
 
     <string name="lele_enterPrompt">输入机场代码（例如：YOW）</string>
@@ -12,6 +17,7 @@
     <string name="lele_delayMsg">"延误："</string>
     <string name="lele_saveFlight">保存航班</string>
     <string name="lele_resultMsg">查询结果</string>
+<<<<<<<<< Temporary merge branch 1
     <string name="lele_titleMsg">航班查询</string>
     <string name="lele_lengthErrorMessage">错误！机场码须为三位大写字母。</string>
     <string name="lele_digitErrorMessage">错误！机场码不能包含字母以外的字符。</string>
@@ -46,11 +52,13 @@
     <string name="river_save">藏好了</string>
     <string name="river_generating_a">造一個</string>
     <string name="river_image">图片</string>
+=========
+    <string name="lele_titleMsg">航班查询</string>>
 
     <string name="lanfei_help">帮助</string>
-    <string name="lanfei_amountMsg">问题总数（1-10）</string>
+    <string name="lanfei_inputNameMsg">输入姓名</string>
     <string name="lanfei_searchMsg">获取测试问题</string>
     <string name="lanfei_qeueryScoresMsg">提取以前测试记录</string>
-    <string name="lanfei_SaveQuizMsg">存储结果</string>>
-    <string name="lanfei_nextQuestionMsg">下一个问题</string>
+    <string name="lanfei_SaveQuizMsg">存储结果</string>
+>>>>>>>>> Temporary merge branch 2
 </resources>

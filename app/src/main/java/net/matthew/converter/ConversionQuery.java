@@ -3,8 +3,10 @@ package net.matthew.converter;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "conversion_query_table")
-public class ConversionQuery {
+public class ConversionQuery implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
