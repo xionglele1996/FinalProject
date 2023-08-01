@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import net.databinding.LeleFlightRowBinding;
+
 import net.databinding.LeleSavedFlightActivityBinding;
+import net.databinding.LeleSavedFlightRowBinding;
 import net.lele.flighttracker.data.FlightViewModel;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class SavedFlightsActivity extends AppCompatActivity {
         @NonNull
         @Override
         public FlightViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LeleFlightRowBinding itemBinding = LeleFlightRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            LeleSavedFlightRowBinding itemBinding = LeleSavedFlightRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new FlightViewHolder(itemBinding);
         }
 
@@ -60,7 +61,7 @@ public class SavedFlightsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
             Flight flight = flights.get(position);
             holder.binding.tvFlightNumber.setText("Flight Number: " + flight.getFlightNumber());
-            holder.binding.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport());
+            holder.binding.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
             holder.binding.tvGate.setText("Gate: " + flight.getGate());
             holder.binding.tvTerminal.setText("Terminal: " + flight.getTerminal());
             holder.binding.tvDelay.setText("Delay: " + flight.getDelay() + " min");
@@ -88,9 +89,9 @@ public class SavedFlightsActivity extends AppCompatActivity {
         }
 
         public class FlightViewHolder extends RecyclerView.ViewHolder {
-            LeleFlightRowBinding binding;
+            LeleSavedFlightRowBinding binding;
 
-            public FlightViewHolder(LeleFlightRowBinding binding) {
+            public FlightViewHolder(LeleSavedFlightRowBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
             }

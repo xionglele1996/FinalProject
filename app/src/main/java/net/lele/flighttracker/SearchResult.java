@@ -56,10 +56,10 @@ public class SearchResult extends AppCompatActivity {
         public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
             Flight flight = flights.get(position);
             holder.tvFlightNumber.setText("Flight Number: " + flight.getFlightNumber());
-            holder.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
-            holder.tvGate.setText("Gate: " + flight.getGate());
-            holder.tvTerminal.setText("Terminal: " + flight.getTerminal());
-            holder.tvDelay.setText("Delay: " + flight.getDelay() + " min");
+           // holder.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
+           // holder.tvGate.setText("Gate: " + flight.getGate());
+           // holder.tvTerminal.setText("Terminal: " + flight.getTerminal());
+           // holder.tvDelay.setText("Delay: " + flight.getDelay() + " min");
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,10 +87,10 @@ public class SearchResult extends AppCompatActivity {
             public FlightViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvFlightNumber = itemView.findViewById(R.id.tvFlightNumber);
-                tvArrivalAirport = itemView.findViewById(R.id.tvArrivalAirport);
-                tvGate = itemView.findViewById(R.id.tvGate);
-                tvTerminal = itemView.findViewById(R.id.tvTerminal);
-                tvDelay = itemView.findViewById(R.id.tvDelay);
+                //tvArrivalAirport = itemView.findViewById(R.id.tvArrivalAirport);
+                //tvGate = itemView.findViewById(R.id.tvGate);
+                //tvTerminal = itemView.findViewById(R.id.tvTerminal);
+                //tvDelay = itemView.findViewById(R.id.tvDelay);
 
 
             }
