@@ -15,6 +15,8 @@ import net.zhichuan.bear.utils.DownloadImage;
 import net.zhichuan.bear.utils.ImageEntity;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PreviewFragment#newInstance} factory method to
@@ -32,6 +34,10 @@ public class PreviewFragment extends Fragment {
     private Button retry;
     private Button save;
 
+    /**
+     * The format of the date.
+     * It is used to format the date into a string.
+     */
     public PreviewFragment() {
         // Required empty public constructor
     }
@@ -54,6 +60,12 @@ public class PreviewFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment.
+     *
+     * @return A new instance of fragment PreviewFragment.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +75,15 @@ public class PreviewFragment extends Fragment {
         }
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * It is used to inflate the layout of the fragment.
+     *
+     * @param inflater           The inflater used to inflate the layout.
+     * @param container          The container used to inflate the layout.
+     * @param savedInstanceState The saved instance state.
+     * @return The inflated layout.
+     */
     @NonNull
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -85,7 +106,8 @@ public class PreviewFragment extends Fragment {
 
         save.setOnClickListener(clk -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.river_frame, ListFragment.newInstance(new ImageEntity(mWidth, mHeight)))
+                .replace(R.id.river_frame,
+                         ListFragment.newInstance(new ImageEntity(mWidth, mHeight, new Date().getTime())))
                 .addToBackStack("")
                 .commit());
 

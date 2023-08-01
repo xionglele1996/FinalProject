@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,18 +16,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import com.google.android.material.snackbar.Snackbar;
+
 import net.R;
 import net.databinding.RiverFragmentListBinding;
 import net.databinding.RiverFragmentRowBinding;
 import net.zhichuan.bear.utils.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import static androidx.recyclerview.widget.RecyclerView.Adapter;
 import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ListFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class ListFragment extends Fragment {
     static String ARG_WIDTH = "width";
     static String ARG_HEIGHT = "height";
@@ -37,21 +43,39 @@ public class ListFragment extends Fragment {
     boolean shouldDownload = false;
     ArrayList<ImageEntity> images;
     RiverFragmentListBinding binding;
-    private ImageViewModel imageViewModel;
     ImageDAO imageDAO;
     Toolbar toolbar;
-    Adapter myAdapter;
+    Adapter<MyRowHolder> myAdapter;
     public boolean deleteMode = false;
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment.
+     *
+     * @return A new instance of fragment ListFragment.
+     */
     public ListFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment ListFragment.
+     */
     @NonNull
     public static ListFragment newInstance() {
         return new ListFragment();
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param entity The image entity.
+     * @return A new instance of fragment ListFragment.
+     */
     @NonNull
     public static ListFragment newInstance(@NonNull ImageEntity entity) {
         ListFragment fragment = new ListFragment();
@@ -62,6 +86,11 @@ public class ListFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     * @return A new instance of fragment ListFragment.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +102,15 @@ public class ListFragment extends Fragment {
         }
     }
 
+    /**
+     * This method is called when the fragment is created.
+     * It sets up the toolbar and the recycler view.
+     *
+     * @param inflater           The layout inflater.
+     * @param container          The view group container.
+     * @param savedInstanceState The saved instance state.
+     * @return The view of the fragment.
+     */
     @NonNull
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -80,7 +118,7 @@ public class ListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = RiverFragmentListBinding.inflate(getLayoutInflater());
 
-        imageViewModel = new ImageViewModel();
+        ImageViewModel imageViewModel = new ImageViewModel();
 
         ImageDatabase imageDatabase = Room.databaseBuilder(requireActivity().getApplicationContext(),
                                                            ImageDatabase.class,
@@ -123,7 +161,9 @@ public class ListFragment extends Fragment {
                                           images.clear();
                                           myAdapter.notifyDataSetChanged();
 
-                                          Snackbar.make(binding.getRoot(), R.string.river_Delete_All, Snackbar.LENGTH_LONG)
+                                          Snackbar.make(binding.getRoot(),
+                                                        R.string.river_Delete_All,
+                                                        Snackbar.LENGTH_LONG)
                                                   .setAction(R.string.river_Undo, (click) -> {
                                                       images.addAll(backupImages);
                                                       myAdapter.notifyDataSetChanged();
@@ -157,6 +197,9 @@ public class ListFragment extends Fragment {
         }
 
 
+        /**
+         * This is the adapter for the recycler view.
+         */
         binding.riverRecyclerView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
@@ -166,6 +209,13 @@ public class ListFragment extends Fragment {
                 return new MyRowHolder(binding.getRoot());
             }
 
+            /**
+             * This method is called when the view holder is bound to the recycler view.
+             * It sets the image, width, and height of the image.
+             *
+             * @param holder   The view holder.
+             * @param position The position of the view holder.
+             */
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
                 ImageEntity image = images.get(position);
@@ -177,16 +227,30 @@ public class ListFragment extends Fragment {
                 holder.height.setText(String.valueOf(image.getHeight()));
             }
 
+            /**
+             * This method returns the number of items in the recycler view.
+             *
+             * @return The number of items in the recycler view.
+             */
             @Override
             public int getItemCount() {
                 return images.size();
             }
         });
 
+        /**
+         * This method sets the layout manager for the recycler view.
+         */
         binding.riverRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity().getApplicationContext()));
 
+        /**
+         * This method is called when the user clicks on the floating action button.
+         * It adds a new image to the recycler view.
+         *
+         * @param view The floating action button.
+         */
         if (shouldDownload) {
-            ImageEntity image = new ImageEntity(mWidth, mHeight);
+            ImageEntity image = new ImageEntity(mWidth, mHeight, new Date().getTime());
 
             images.add(image);
 
@@ -195,23 +259,42 @@ public class ListFragment extends Fragment {
                                    imageDAO.insert(image));
 
             myAdapter.notifyItemInserted(images.size());
+
+            shouldDownload = false;
         }
 
         return binding.getRoot();
     }
 
+    /**
+     * This method shows the help dialog.
+     */
     class MyRowHolder extends ViewHolder {
         ImageView image;
         TextView width;
         TextView height;
 
+        /**
+         * This method is the constructor for the view holder.
+         *
+         * @param itemView The view.
+         */
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(clk -> {
                 int position = getAdapterPosition();
 
-                if (deleteMode) {
+                if (!deleteMode) {
+                    ImageEntity image = images.get(position);
+                    requireActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.river_frame,
+                                     DetailsFragment.newInstance(image.getWidth(),
+                                                                 image.getHeight(),
+                                                                 image.getTime()))
+                            .addToBackStack(null)
+                            .commit();
+                } else {
                     ImageEntity image = images.get(position);
 
                     images.remove(position);
@@ -243,6 +326,9 @@ public class ListFragment extends Fragment {
         }
     }
 
+    /**
+     * This method shows the help dialog.
+     */
     private void showHelpDialog() {
         new androidx.appcompat.app.AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.river_help_title)
