@@ -1,4 +1,4 @@
-package net.zhichuan.bear;
+package net;
 
 import android.annotation.SuppressLint;
 import android.icu.text.SimpleDateFormat;
@@ -20,12 +20,8 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class DetailsFragment extends Fragment {
-    /**
-     * The format of the date.
-     * It is used to format the date into a string.
-     */
 
-    @SuppressLint("SimpleDateFormat")
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_WIDTH = "width";
     private static final String ARG_HEIGHT = "height";
     private static final String ARG_DATE = "date";
@@ -36,12 +32,6 @@ public class DetailsFragment extends Fragment {
 
     private FragmentDetailsBinding binding;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment DetailsFragment.
-     */
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -66,12 +56,6 @@ public class DetailsFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * Called when the fragment is created.
-     * It gets the arguments passed to the fragment and stores them in the class.
-     *
-     * @param savedInstanceState The saved instance state.
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +66,6 @@ public class DetailsFragment extends Fragment {
         }
     }
 
-    /**
-     * Called when the fragment is created.
-     * It creates the view of the fragment.
-     *
-     * @param inflater           The layout inflater.
-     * @param container          The view group container.
-     * @param savedInstanceState The saved instance state.
-     * @return The view of the fragment.
-     */
     @SuppressLint("DefaultLocale")
     @NonNull
     @Override

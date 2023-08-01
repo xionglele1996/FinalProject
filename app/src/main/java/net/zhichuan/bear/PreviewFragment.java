@@ -34,10 +34,6 @@ public class PreviewFragment extends Fragment {
     private Button retry;
     private Button save;
 
-    /**
-     * The format of the date.
-     * It is used to format the date into a string.
-     */
     public PreviewFragment() {
         // Required empty public constructor
     }
@@ -60,12 +56,6 @@ public class PreviewFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment PreviewFragment.
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +65,6 @@ public class PreviewFragment extends Fragment {
         }
     }
 
-    /**
-     * This method is called when the fragment is created.
-     * It is used to inflate the layout of the fragment.
-     *
-     * @param inflater           The inflater used to inflate the layout.
-     * @param container          The container used to inflate the layout.
-     * @param savedInstanceState The saved instance state.
-     * @return The inflated layout.
-     */
     @NonNull
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,

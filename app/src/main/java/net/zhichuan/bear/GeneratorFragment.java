@@ -30,22 +30,10 @@ public class GeneratorFragment extends Fragment {
 
     SharedPreferences sharedPreferences;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment GeneratorFragment.
-     */
     public GeneratorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment GeneratorFragment.
-     */
     @NonNull
     public static GeneratorFragment newInstance() {
         GeneratorFragment fragment = new GeneratorFragment();
@@ -54,24 +42,11 @@ public class GeneratorFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * This method is called when the fragment is created.
-     *
-     * @param savedInstanceState The saved instance state.
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    /**
-     * This method is called when the fragment is created.
-     *
-     * @param inflater           The layout inflater.
-     * @param container          The view group container.
-     * @param savedInstanceState The saved instance state.
-     * @return The view of the fragment.
-     */
     @NonNull
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container,

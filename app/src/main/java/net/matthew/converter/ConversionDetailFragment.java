@@ -9,21 +9,10 @@ import android.widget.TextView;
 
 import net.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ConversionDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ConversionDetailFragment extends Fragment {
 
-    /**
-     * The query to display.
-     */
     private ConversionQuery conversionQuery;
 
-    /**
-     * Required empty public constructor.
-     */
     public ConversionDetailFragment() {
         // Required empty public constructor
     }
