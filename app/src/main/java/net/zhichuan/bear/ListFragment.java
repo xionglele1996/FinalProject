@@ -84,7 +84,9 @@ public class ListFragment extends Fragment {
 
         ImageDatabase imageDatabase = Room.databaseBuilder(requireActivity().getApplicationContext(),
                                                            ImageDatabase.class,
-                                                           "image-db").build();
+                                                           "image-db")
+                .fallbackToDestructiveMigration()
+                .build();
         imageDAO = imageDatabase.imageDAO();
 
         images = imageViewModel.image.getValue();
