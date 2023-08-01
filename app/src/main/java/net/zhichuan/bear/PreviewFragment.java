@@ -61,10 +61,8 @@ public class PreviewFragment extends Fragment {
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment PreviewFragment.
+     * This method is called when the fragment is created.
+     * It is used to get the width and height of the image.
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

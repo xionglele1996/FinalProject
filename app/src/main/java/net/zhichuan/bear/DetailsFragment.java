@@ -37,10 +37,7 @@ public class DetailsFragment extends Fragment {
     private FragmentDetailsBinding binding;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment DetailsFragment.
+     * The required empty public constructor.
      */
     public DetailsFragment() {
         // Required empty public constructor

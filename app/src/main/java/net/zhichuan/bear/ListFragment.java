@@ -49,10 +49,7 @@ public class ListFragment extends Fragment {
     public boolean deleteMode = false;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment ListFragment.
+     * The required empty public constructor.
      */
     public ListFragment() {
         // Required empty public constructor
@@ -89,7 +86,6 @@ public class ListFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * @return A new instance of fragment ListFragment.
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

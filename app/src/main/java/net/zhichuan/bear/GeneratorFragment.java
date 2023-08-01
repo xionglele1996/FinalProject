@@ -31,10 +31,7 @@ public class GeneratorFragment extends Fragment {
     SharedPreferences sharedPreferences;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment GeneratorFragment.
+     * The required empty public constructor.
      */
     public GeneratorFragment() {
         // Required empty public constructor
