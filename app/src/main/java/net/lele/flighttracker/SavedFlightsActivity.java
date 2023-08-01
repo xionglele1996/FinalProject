@@ -20,12 +20,21 @@ import net.databinding.LeleSavedFlightRowBinding;
 import net.lele.flighttracker.data.FlightViewModel;
 
 import java.util.List;
-
+/**
+ * Activity to display and manage saved flights.
+ * It uses a RecyclerView to list each flight, and allows the user to delete individual flights.
+ */
 public class SavedFlightsActivity extends AppCompatActivity {
 
     private LeleSavedFlightActivityBinding binding;
     private FlightViewModel flightViewModel;
 
+    /**
+     * Initializes the activity, setting up views and connecting to the FlightViewModel to
+     * retrieve the saved flights.
+     *
+     * @param savedInstanceState Information about the saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +52,17 @@ public class SavedFlightsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inner class for the RecyclerView Adapter to handle the display of saved flights.
+     */
     public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.FlightViewHolder> {
         private List<Flight> flights;
 
+        /**
+         * Constructor for FlightAdapter.
+         *
+         * @param flights List of Flight objects to display.
+         */
         public FlightAdapter(List<Flight> flights) {
             this.flights = flights;
         }
@@ -57,6 +74,12 @@ public class SavedFlightsActivity extends AppCompatActivity {
             return new FlightViewHolder(itemBinding);
         }
 
+        /**
+         * Binds the flight data to the ViewHolder.
+         *
+         * @param holder   The ViewHolder to bind data to.
+         * @param position The position of the flight in the list.
+         */
         @Override
         public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
             Flight flight = flights.get(position);
@@ -88,6 +111,9 @@ public class SavedFlightsActivity extends AppCompatActivity {
             return flights.size();
         }
 
+        /**
+         * Inner class for the RecyclerView ViewHolder to hold the views for each saved flight.
+         */
         public class FlightViewHolder extends RecyclerView.ViewHolder {
             LeleSavedFlightRowBinding binding;
 
