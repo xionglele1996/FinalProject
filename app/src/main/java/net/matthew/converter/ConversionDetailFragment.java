@@ -43,10 +43,10 @@ public class ConversionDetailFragment extends Fragment {
         TextView textViewAmount = view.findViewById(R.id.textView_amount);
         TextView textViewConvertedAmount = view.findViewById(R.id.textView_convertedAmount);
 
-        textViewSourceCurrency.setText(conversionQuery.getSourceCurrency());
-        textViewDestinationCurrency.setText(conversionQuery.getDestinationCurrency());
-        textViewAmount.setText(conversionQuery.getAmount());
-        textViewConvertedAmount.setText(conversionQuery.getConvertedAmount());
+        textViewSourceCurrency.setText(String.format("%s %s", getString(R.string.matthew_source_currency), conversionQuery.getSourceCurrency()));
+        textViewDestinationCurrency.setText(String.format("%s %s", getString(R.string.matthew_destination_currency), conversionQuery.getDestinationCurrency()));
+        textViewAmount.setText(String.format("%s %s", getString(R.string.matthew_amount), conversionQuery.getAmount()));
+        textViewConvertedAmount.setText(String.format("%s %s", getString(R.string.matthew_converted_amount), conversionQuery.getConvertedAmount()));
 
         return view;
     }
