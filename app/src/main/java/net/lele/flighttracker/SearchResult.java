@@ -1,5 +1,6 @@
 package net.lele.flighttracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,24 @@ public class SearchResult extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
             Flight flight = flights.get(position);
-            holder.tvFlightNumber.setText(flight.getFlightNumber());
+            holder.tvFlightNumber.setText("Flight Number: " + flight.getFlightNumber());
+           // holder.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
+           // holder.tvGate.setText("Gate: " + flight.getGate());
+           // holder.tvTerminal.setText("Terminal: " + flight.getTerminal());
+           // holder.tvDelay.setText("Delay: " + flight.getDelay() + " min");
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment detailsFragment = DetailsFragment.newInstance(flight);
+                    ((AppCompatActivity)v.getContext()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment, detailsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+
         }
 
 
@@ -64,13 +82,18 @@ public class SearchResult extends AppCompatActivity {
         }
 
         public class FlightViewHolder extends RecyclerView.ViewHolder {
-            TextView tvFlightNumber;
+            TextView tvFlightNumber, tvArrivalAirport, tvGate, tvTerminal, tvDelay;
 
             public FlightViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvFlightNumber = itemView.findViewById(R.id.tvFlightNumber);
+                //tvArrivalAirport = itemView.findViewById(R.id.tvArrivalAirport);
+                //tvGate = itemView.findViewById(R.id.tvGate);
+                //tvTerminal = itemView.findViewById(R.id.tvTerminal);
+                //tvDelay = itemView.findViewById(R.id.tvDelay);
+
+
             }
         }
-
     }
 }

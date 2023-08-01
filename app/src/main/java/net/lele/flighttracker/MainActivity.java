@@ -15,7 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -25,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 import net.R;
 
 import net.databinding.LeleActivityMainBinding;
+import net.lele.flighttracker.data.FlightViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private JsonObjectRequest jsonObjectRequest;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("FlightTrackerPrefs", MODE_PRIVATE);
+
+
 
         String savedAirportCode = sharedPreferences.getString("airportCode", "");
         binding.airportCodeEditText.setText(savedAirportCode);
@@ -84,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton(R.string.lele_noBtn, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
+            }
+        });
+
+        binding.btnViewSavedFlights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SavedFlightsActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -132,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void executeSearch(String airportCode) {
-        String url = "http://api.aviationstack.com/v1/flights?access_key=20385bd99950907e638561f5dc176319&dep_iata=" + airportCode;
+        String url = "https://api.aviationstack.com/v1/flights?access_key=e3c79e5ce306d9344a70ce63c58f9081&dep_iata=" + airportCode;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -144,32 +159,24 @@ public class MainActivity extends AppCompatActivity {
 
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject thisObj = data.getJSONObject(i);
+
+                            // Get departure and arrival info
                             JSONObject departure = thisObj.getJSONObject("departure");
+                            JSONObject arrival = thisObj.getJSONObject("arrival");
 
-                            if (departure.getString("iata").equals(airportCode)) {
-                                String status = thisObj.getString("flight_status");
+                            // Set default values for null data
+                            String gate = departure.isNull("gate") ? "Not Available" : departure.getString("gate");
+                            String terminal = departure.isNull("terminal") ? "T1" : departure.getString("terminal");
+                            String destinationAirport = arrival.isNull("airport") ? "Not Available" : arrival.getString("airport");
+                            int delay = departure.isNull("delay") ? 0 : departure.getInt("delay"); // -1 will indicate no data
 
-                                String gate = null;
-                                if (!departure.isNull("gate")) {
-                                    gate = departure.getString("gate");
-                                }
 
-                                int delay = 0;
-                                if (!departure.isNull("delay")) {
-                                    delay = departure.getInt("delay");
-                                }
+                            // Get flight number
+                            JSONObject flightObj = thisObj.getJSONObject("flight");
+                            String flightNumber = flightObj.isNull("iata") ? "Not Available" : flightObj.getString("iata");
 
-                                JSONObject airline = thisObj.getJSONObject("airline");
-                                String airlineName = airline.isNull("name") ? "" : airline.getString("name"); // Handle null value
-
-                                // Get flight number
-                                JSONObject flightObj = thisObj.getJSONObject("flight");
-                                String flightNumber = flightObj.isNull("iata") ? "" : flightObj.getString("iata"); // Handle null value
-
-                                Flight flight = new Flight(flightNumber, status, gate, delay, airlineName);
-                                flights.add(flight);
-
-                            }
+                            Flight flight = new Flight(destinationAirport, terminal, gate, delay, flightNumber);
+                            flights.add(flight);
                         }
 
                         Log.d("FlightTracker", "Number of flights found: " + flights.size());
@@ -183,10 +190,19 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 },
-                (error) -> {showErrorSnackbar(R.string.lele_networkErrorMsg);
-                    error.printStackTrace();}
+                (error) -> {
+                    showErrorSnackbar(R.string.lele_networkErrorMsg);
+                    error.printStackTrace();
+                }
         );
+
+        // Setting the retry policy on the request.
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                20000, // 20 seconds
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
+
 }
