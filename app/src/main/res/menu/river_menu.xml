@@ -2,18 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:title="New Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/river_new_image"/>
+        android:id="@+id/river_new_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/river_new_image" />
     <item
-            android:title="Delete Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/river_delete_image"/>
+        android:id="@+id/river_delete_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/river_delete_image" />
     <item
-            android:title="Delete All"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/river_delete_all"/>
+        android:id="@+id/river_delete_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/river_Delete_All" />
+    <item
+        android:id="@+id/river_help"
+        android:title="@string/river_help_title" />
 </menu>

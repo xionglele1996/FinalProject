@@ -10,12 +10,12 @@
             android:id="@+id/app_currency_converter"
             app:showAsAction="always"/>
     <item
-            android:title="Bear Generator"
+        android:id="@+id/app_bear_generator"
         android:icon="@drawable/ic_item3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_bear_generator"
-            app:showAsAction="always"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/river_app_bear_generator"
+        app:showAsAction="always" />
     <item
             android:title="Tivia Question"
         android:icon="@drawable/ic_item2"
