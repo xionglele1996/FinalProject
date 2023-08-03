@@ -13,24 +13,33 @@ import java.util.List;
 
 /**
  * This class is used to adapt the conversion queries to the RecyclerView.
+ * It handles the display of conversion queries in a list format.
  */
 public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQueryAdapter.ViewHolder> {
 
     /**
-     * This class is used to hold the views for each conversion query.
+     * The list of conversion queries to be adapted.
      */
     private List<ConversionQuery> conversionQueries;
+
+    /**
+     * The listener for handling click events on items.
+     */
     private final OnItemClickListener onItemClickListener;
 
+    /**
+     * Interface for handling click events on items within the adapter.
+     */
     public interface OnItemClickListener {
         void onItemClick(ConversionQuery conversionQuery);
         void onItemDetailClick(ConversionQuery conversionQuery);
     }
 
     /**
-     * Constructor.
+     * Constructor for the ConversionQueryAdapter.
      *
-     * @param conversionQueries The conversion queries to adapt.
+     * @param conversionQueries     The conversion queries to adapt.
+     * @param onItemClickListener   The listener for handling click events on items.
      */
     public ConversionQueryAdapter(List<ConversionQuery> conversionQueries, OnItemClickListener onItemClickListener) {
         this.conversionQueries = conversionQueries;
@@ -55,6 +64,7 @@ public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQuery
 
     /**
      * This method is called when the RecyclerView needs to display a ViewHolder.
+     * It binds the conversion query to the provided ViewHolder.
      *
      * @param holder   The ViewHolder to display.
      * @param position The position of the ViewHolder.
@@ -66,24 +76,41 @@ public class ConversionQueryAdapter extends RecyclerView.Adapter<ConversionQuery
         holder.textViewQuery.setText(query);
     }
 
-
-
+    /**
+     * Returns the total number of items in the list held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return conversionQueries.size();
     }
 
+    /**
+     * Update the conversion queries with new data and notify the adapter of the change.
+     *
+     * @param newConversionQueries The new list of conversion queries.
+     */
     public void updateData(List<ConversionQuery> newConversionQueries) {
         this.conversionQueries = newConversionQueries;
         notifyDataSetChanged();  // Notify the adapter of the data change
     }
 
+    /**
+     * A ViewHolder class used to hold the views for each conversion query.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView textViewQuery;
         private final Button buttonDelete;
         private final Button buttonDetail;
 
+        /**
+         * Constructor for the ViewHolder.
+         *
+         * @param itemView           The view for this ViewHolder.
+         * @param onItemClickListener The listener for handling click events on items.
+         */
         public ViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             textViewQuery = itemView.findViewById(R.id.textView_query);

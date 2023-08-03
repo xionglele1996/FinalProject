@@ -28,6 +28,12 @@ public class ConversionDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Factory method to create a new instance of this fragment using the provided ConversionQuery.
+     *
+     * @param conversionQuery The conversion query to display.
+     * @return A new instance of fragment ConversionDetailFragment.
+     */
     public static ConversionDetailFragment newInstance(ConversionQuery conversionQuery) {
         ConversionDetailFragment fragment = new ConversionDetailFragment();
         Bundle args = new Bundle();
@@ -36,6 +42,12 @@ public class ConversionDetailFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is first created.
+     * Initializes the conversion query if arguments are provided.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +56,15 @@ public class ConversionDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * Called to create and return the view hierarchy associated with the fragment.
+     * Populates various TextView elements with the details of the conversion.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     * @return The View for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

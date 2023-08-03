@@ -36,6 +36,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The main activity class for the currency converter application.
+ * It provides functionalities to convert currencies, save queries, and view details of conversion queries.
+ */
 public class MainActivity extends AppCompatActivity implements ConversionQueryAdapter.OnItemClickListener {
 
     private EditText editTextAmount;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
     private Button buttonViewSavedQueries;
 
 
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +130,11 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
 
     }
 
+    /**
+     * Shows the details of a specific conversion query.
+     *
+     * @param conversionQuery The conversion query to display.
+     */
     public void showDetail(ConversionQuery conversionQuery) {
         ConversionDetailFragment detailFragment = ConversionDetailFragment.newInstance(conversionQuery);
         getSupportFragmentManager()
@@ -210,6 +222,9 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
         return new ArrayList<>(Arrays.asList("USD", "EUR", "GBP", "AUD", "CAD"));
     }
 
+    /**
+     * Converts currency using an API call and updates the UI with the result.
+     */
     private void convertCurrency() {
         String sourceCurrency = spinnerFromCurrency.getSelectedItem().toString();
         String destinationCurrency = spinnerToCurrency.getSelectedItem().toString();
@@ -256,7 +271,9 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
         queue.add(jsonObjectRequest);
     }
 
-
+    /**
+     * Saves the last conversion query to the database and shared preferences.
+     */
     private void saveQuery() {
         if (lastConversionResult == null) {
             Toast.makeText(this, getString(R.string.matthew_please_convert_before_saving), Toast.LENGTH_SHORT).show();
@@ -283,7 +300,9 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
         lastConversionResult = null; // Clear the last conversion result after saving
     }
 
-
+    /**
+     * Loads the saved conversion queries from the database.
+     */
     private void loadQueries() {
         new Thread(() -> {
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
