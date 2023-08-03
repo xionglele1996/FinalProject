@@ -104,8 +104,8 @@ public class GeneratorFragment extends Fragment {
 //            create the image url and pass it to the preview fragment
             PreviewFragment previewFragment = PreviewFragment.newInstance(imageWidth, imageHeight);
 
-            Toast.makeText(getActivity(), getString(R.string.river_generating_a) + imageWidth + " x "
-                    + imageHeight + getString(R.string.river_image) + "...", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.river_generating_a) + " " + imageWidth + " x "
+                    + imageHeight +" "+ getString(R.string.river_image) + " " + "...", Toast.LENGTH_LONG).show();
 
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
