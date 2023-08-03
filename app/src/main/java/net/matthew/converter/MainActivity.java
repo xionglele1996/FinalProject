@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
     private RecyclerView recyclerViewQueries;
     private ConversionQueryAdapter adapter;
     private ConversionQuery lastConversionResult;
+    private Button buttonViewSavedQueries;
 
 
     @Override
@@ -110,6 +111,15 @@ public class MainActivity extends AppCompatActivity implements ConversionQueryAd
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        buttonViewSavedQueries = findViewById(R.id.button_view_saved_queries);
+
+        buttonViewSavedQueries.setOnClickListener(v -> {
+            if (recyclerViewQueries.getVisibility() == View.GONE) {
+                recyclerViewQueries.setVisibility(View.VISIBLE);
+            } else {
+                recyclerViewQueries.setVisibility(View.GONE);
+            }
+        });
 
     }
 

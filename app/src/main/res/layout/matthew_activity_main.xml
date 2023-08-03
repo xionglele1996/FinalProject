@@ -56,12 +56,22 @@
         android:layout_marginTop="16dp"
         android:text="@string/matthew_save_query"/>
 
+    <Button
+        android:id="@+id/button_view_saved_queries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_save"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="View Saved Queries"/>
+
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_queries"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_save"
-            android:layout_marginTop="16dp"/>
+        android:id="@+id/recyclerView_queries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_view_saved_queries"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
