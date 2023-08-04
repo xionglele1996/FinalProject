@@ -73,5 +73,6 @@
     <string name="lanfei_searchMsg">Search Questions</string>
     <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
     <string name="lanfei_SaveQuizMsg">Save Quiz</string>
+    <string name="lele_deleteMsg">DELETE</string>
 
 </resources>

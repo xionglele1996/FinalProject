@@ -4,6 +4,7 @@ package net.lele.flighttracker;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
+import net.R;
 import net.databinding.LeleSavedFlightActivityBinding;
 import net.databinding.LeleSavedFlightRowBinding;
 import net.lele.flighttracker.data.FlightViewModel;
@@ -84,24 +85,21 @@ public class SavedFlightsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull FlightViewHolder holder, int position) {
             Flight flight = flights.get(position);
             holder.binding.tvFlightNumber.setText("Flight Number: " + flight.getFlightNumber());
-            holder.binding.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
-            holder.binding.tvGate.setText("Gate: " + flight.getGate());
-            holder.binding.tvTerminal.setText("Terminal: " + flight.getTerminal());
-            holder.binding.tvDelay.setText("Delay: " + flight.getDelay() + " min");
+           // holder.binding.tvArrivalAirport.setText("Arrival Airport: " + flight.getDestinationAirport() + " Airport");
+            //holder.binding.tvGate.setText("Gate: " + flight.getGate());
+            //holder.binding.tvTerminal.setText("Terminal: " + flight.getTerminal());
+            //holder.binding.tvDelay.setText("Delay: " + flight.getDelay() + " min");
 
-            holder.itemView.setOnClickListener(v -> {
-                new AlertDialog.Builder(SavedFlightsActivity.this)
-                        .setTitle("Delete Message")
-                        .setMessage("Do you want to delete this flight?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Remove the flight from the database
-                                flightViewModel.deleteFlight(flight);
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SavedDetailFragment detailsFragment = SavedDetailFragment.newInstance(flight);
+                    ((AppCompatActivity)v.getContext()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.savedFragment, detailsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             });
 
         }

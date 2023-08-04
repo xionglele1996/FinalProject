@@ -12,32 +12,5 @@
         android:text="flight number goes here"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvArrivalAirport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="arrival airport goes here"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvGate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gate goes here"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvTerminal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="terminal goes here"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvDelay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="delay goes here"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

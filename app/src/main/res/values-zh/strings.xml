@@ -74,4 +74,5 @@
     <string name="lanfei_searchMsg">获取测试问题</string>
     <string name="lanfei_qeueryScoresMsg">提取以前测试记录</string>
     <string name="lanfei_SaveQuizMsg">存储结果</string>
+    <string name="lele_deleteMsg">DELETE</string>
 </resources>
