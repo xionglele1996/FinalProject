@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (item.getItemId() == R.id.app_trivia_question) {
             Intent intent = new Intent(this, net.lanfei.trivia.MainActivity.class);
+            //Intent intent = new Intent(this, net.lanfei.trivia.TriviaActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.app_flight_tracker) {
             Intent intent = new Intent(this, net.lele.flighttracker.MainActivity.class);

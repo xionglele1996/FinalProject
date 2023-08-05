@@ -1,10 +1,14 @@
+/**
+ * This class represents the main activity of the trivia app.
+ * It allows the user to search and start quizzes, query scores, and save scores into a local database.
+ */
 package net.lanfei.trivia;
 
+// Import statements
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -21,10 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.android.material.snackbar.Snackbar;
 
 import net.R;
@@ -32,29 +32,17 @@ import net.databinding.LanfeiActivityMainBinding;
 import net.lanfei.trivia.data.TriviaDatabase;
 import net.lanfei.trivia.data.TriviaScoreDao;
 
-//import net.matthew.converter.AppDatabase;
-//import net.matthew.converter.ConversionQuery;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
-
 import net.lanfei.trivia.data.TriviaScore;
-import net.matthew.converter.AppDatabase;
-import net.matthew.converter.ConversionQuery;
-import net.matthew.converter.ConversionQueryAdapter;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executor;
 
+
+/**
+ * MainActivity class extending AppCompatActivity.
+ */
 public class MainActivity extends AppCompatActivity {
     private LanfeiActivityMainBinding binding;
 
@@ -69,16 +57,24 @@ public class MainActivity extends AppCompatActivity {
     private EditText amountEdit;
     private EditText usernameEdit;
 
-   // private RecyclerView.Adapter myAdapter;
-
-    private TriviaScoreAdapter trivisScoreAdapter;
+    private ScoresAdapter triviaScoreAdapter;
 
     private TriviaScore lastScore = null;
-    private int score = 70;
+    private int score = 80;
+
+    private List<TriviaScore> triviaScores = new ArrayList<TriviaScore>();
 
     private TriviaScoreDao triviaDao;
 
     private RecyclerView recyclerViewScores;
+
+    private Executor thread;
+
+    /**
+     * Initializes the main activity and sets up UI components and event listeners.
+     *
+     * @param savedInstanceState The saved instance state bundle.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +89,13 @@ public class MainActivity extends AppCompatActivity {
         spinnerCategory = findViewById(R.id.category);
         searchButton = findViewById(R.id.lanfeiBtnSearch);
         queryScoresButton = findViewById(R.id.lanfeiBtnQuery);
-        saveButton = findViewById(R.id.lanfeiBtnSave);
+
         usernameEdit = findViewById(R.id.lanfeiUsername);
 
         recyclerViewScores = findViewById(R.id.lanfeRecyclerViewScores);
+        triviaScoreAdapter = new ScoresAdapter(triviaScores);  // Initialize with empty list
+        recyclerViewScores.setAdapter(triviaScoreAdapter);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
-
-        trivisScoreAdapter = new TriviaScoreAdapter(new ArrayList<>());  // Initialize with empty list
-        recyclerViewScores.setAdapter(trivisScoreAdapter);
 
         TriviaDatabase db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
@@ -116,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = savedPrefs.edit();
         String lastAmount = savedPrefs.getString("Amount", "");
         String lastTopic = savedPrefs.getString("Topic", "");
-        String lastUser = savedPrefs.getString("User", "");
+        String lastUser = savedPrefs.getString("LoginName", "");
 
         if (!lastAmount.isEmpty()) {
             amountEdit.setText(lastAmount);
@@ -132,17 +127,25 @@ public class MainActivity extends AppCompatActivity {
             String topic = spinnerCategory.getSelectedItem().toString();
             String categoryNum = getCategoryNumber(spinnerCategory.getSelectedItem().toString());
             String amount = amountEdit.getText().toString().trim();
+            String username = usernameEdit.getText().toString().trim();
 
-            // save the selected topic into SharedPreferences
+            // save the username, selected topic and amount into SharedPreferences
+            editor.putString("LoginName", username);
             editor.putString("Amount", amount);
             editor.putString("Topic", topic);
-            editor.apply();
+            editor.commit();
 
             Toast.makeText(this,
-                    "You selected topic for the trivia question is: " + topic + "=" + categoryNum,
+                    "You selected topic is: " + topic + "=" + categoryNum
+                            + " and " + amount + " questions",
                     Toast.LENGTH_LONG).show();
 
-            searchQuestions(categoryNum, amount);
+            //Start the quiz activity with user name and selected topic
+            Intent nextPage = new Intent(this, QuizQuestionActivity.class);
+            nextPage.putExtra("LoginName", username);
+            nextPage.putExtra("Amount", amount);
+            nextPage.putExtra("Topic", topic);
+            startActivity(nextPage);
         });
 
         queryScoresButton.setOnClickListener(clk -> {
@@ -153,105 +156,62 @@ public class MainActivity extends AppCompatActivity {
             queryScores();
         });
 
-        saveButton.setOnClickListener(clk -> {
-            String username = usernameEdit.getText().toString().trim();
-
-            // save the selected topic into SharedPreferences
-            editor.putString("User", username);
-            editor.apply();
-
-            score++; // will be calculated
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Save Quiz Score")
-                    .setMessage(username + " quiz score is " + score +
-                            ". Save the score into database")
-                    .setPositiveButton("OK", null)
-                    .show();
-            lastScore = new TriviaScore(username, score);
-
-            saveScore();
-        });
     }
 
+    /**
+     * Inflates the options menu for the activity.
+     *
+     * @param menu The menu object to inflate.
+     * @return True if the menu is successfully inflated.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lanfei_trivia_menu, menu);
         return true;
     }
 
+    /**
+     * Handles the selection of items in the options menu.
+     *
+     * @param item The selected menu item.
+     * @return True if the menu item is handled successfully.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        // Handle options menu item selection
         if (item.getItemId() == R.id.trivia_help) {
             new AlertDialog.Builder(this)
                     .setTitle("Help")
                     .setMessage("Trivia questions. \n" +
-                            "Click Display Score button to display the last 10 scores.\n" +
+                            "Click Query Trivia Scores button to display the last 10 scores.\n" +
                             "Select a topic for new quize questions.\n" +
-                            "Click Search Questions to list quiz questions\n" +
-                            "Click Save button to save the quize score.")
+                            "Click Start Quiz to list questions\n")
                     .setPositiveButton("OK", null)
                     .show();
             return true;
-        } else if (item.getItemId() == R.id.quiz_question) {
-            Intent intent = new Intent(this, net.lanfei.trivia.TriviaQuestionActivity.class);
-            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Retrieves a list of trivia categories.
+     *
+     * @return A list of trivia categories.
+     */
     private List<String> getCategories() {
         // Replace this with your actual list of categories
         return new ArrayList<>(Arrays.asList("Mythology", "Sports", "Geography", "History", "Art"));
     }
 
-    private void searchTriviaQuestions(String categoryNum) {
-        //String categoryNum = getCategoryNumber (spinnerCategory.getSelectedItem().toString());
-        String url = "https://opentdb.com/api.php?amount=5&category=" + categoryNum + "&type=multiple";
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        // Request a string response from the provided URL.
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, response -> {
-                    Log.d("API_RESPONSE", "Response: " + response.toString());
-
-                    try {
-                        // JSONObject results = response.getJSONObject("results");
-                        // Iterator<String> keys = results.keys();
-
-                        JSONArray results = response.getJSONArray("results");
-                        int numOfQuestions = results.length();
-
-                        // while (keys.hasNext()) {
-                        //     String key = keys.next();
-                        JSONObject questionObj = results.getJSONObject(0);
-                        String question = questionObj.getString("question");
-
-                        // Update UI on main thread
-                        runOnUiThread(() -> {
-                            // Show the conversion result and the rate in a Toast
-                            Toast.makeText(this, "Question: " + question, Toast.LENGTH_SHORT).show();
-                        });
-                        // }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-                    Log.d("API_RESPONSE", "Error: " + error.getMessage());
-                    // Display the error message in a Toast
-                    Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-
-        // Add the request to the RequestQueue.
-        //queue.add(jsonObjectRequest);
-
-    }
-
+    /**
+     * Maps a category name to its corresponding category number.
+     *
+     * @param category The category name to map.
+     * @return The category number corresponding to the given category name.
+     */
     private String getCategoryNumber(String category) {
+        // Map category name to category number
         if (category.equalsIgnoreCase("Mythology")) return "20";
         else if (category.equalsIgnoreCase("Sports")) return "21";
         else if (category.equalsIgnoreCase("Geography")) return "22";
@@ -261,82 +221,19 @@ public class MainActivity extends AppCompatActivity {
         else return "22";
     }
 
-    private void searchQuestions(String category, String amount) {
-
-        String url = "https://opentdb.com/api.php?amount=" + amount + "&category=" + category + "&type=multiple";
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        // Request a string response from the provided URL.
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, response -> {
-                    Log.d("API_RESPONSE", "Response: " + response.toString());
-                    try {
-
-                        JSONArray results = response.getJSONArray("results");
-                        int numOfQuestions = results.length();
-
-                        if (numOfQuestions > 0) {
-                            JSONObject questionObject = results.getJSONObject(0);
-
-                            String question = questionObject.getString("question");
-
-                            // Update UI on main thread
-                            runOnUiThread(() -> {
-                                // Show the question result in a Toast
-                                Toast.makeText(this, "Question: " + question, Toast.LENGTH_SHORT).show();
-                            });
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, error -> {
-                    Log.d("API_RESPONSE", "Error: " + error.getMessage());
-                    // Display the error message in a Toast
-                    Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest);
-    }
-
-    private void saveScore() {
-        if (lastScore == null) {
-            Toast.makeText(this, "Please do a quiz before saving.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new Thread(() -> {
-            //   TriviaDatabase db = Room.databaseBuilder(getApplicationContext(),
-            //                  TriviaDatabase.class, "TriviaScore")
-            //          .fallbackToDestructiveMigration()
-            //         .build();
-            triviaDao.insert(lastScore);
-            // loadQueries();
-        }).start();
-
-        // Save the query into SharedPreferences as well
-        // String query = lastScore.getUsername() + "-" + lastScore.getScore();
-        // SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        // SharedPreferences.Editor editor = sharedPref.edit();
-        // editor.putString("lastScore", query);
-        // editor.apply();
-
-        Toast.makeText(this, "Score saved", Toast.LENGTH_SHORT).show();
-        lastScore = null; // Clear the last score result after saving
-    }
-
+    /**
+     * Queries the top 10 scores from the local database and updates the RecyclerView adapter.
+     */
     private void queryScores() {
         new Thread(() -> {
 
             List<TriviaScore> scores = triviaDao.getAllScores();
 
-          //  runOnUiThread(() -> {
-           //     trivisScoreAdapter.updateData(scores);
-           // });
+            runOnUiThread(() -> {
+                triviaScoreAdapter.setData(scores);
+                triviaScoreAdapter.notifyDataSetChanged();
+            });
+
         }).start();
     }
-
 }

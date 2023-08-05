@@ -18,7 +18,7 @@ public interface TriviaScoreDao {
     @Delete
     void delete(TriviaScore triviaScore);
 
-    @Query("SELECT * FROM TriviaScore ORDER BY score DESC")
+    @Query("SELECT * FROM TriviaScore ORDER BY score DESC LIMIT 10")
     List<TriviaScore> getAllScores();
 }
 
