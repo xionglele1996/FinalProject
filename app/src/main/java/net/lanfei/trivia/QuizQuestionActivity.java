@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -62,6 +64,8 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
     private Executor thread;
 
+    boolean calcualted = false;
+
     /**
      * Initializes the quiz question activity and sets up UI components and event listeners.
      *
@@ -84,7 +88,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
         String amount = getIntent().getStringExtra("Amount");
         String username = getIntent().getStringExtra("LoginName");
 
-        binding.nameTextView.setText(" for " + amount + " " + topic + " questions");
+        binding.categoryTextView.setText(" for " + topic + " Questions");
 
         TriviaDatabase db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
@@ -102,9 +106,11 @@ public class QuizQuestionActivity extends AppCompatActivity {
         loadQuestions(amount, categoryNum);
 
         binding.calculateScoreButton.setOnClickListener(clk -> {
+            calcualted = true;
             finalScore = 0;
             int correctAnswers = 0;
 
+            // count the correct answers
             for (Question question : questions) {
                 if (question.isCorrect()) {
                     correctAnswers++;
@@ -114,7 +120,17 @@ public class QuizQuestionActivity extends AppCompatActivity {
             // round the score to integer
             finalScore = (int) Math.ceil(100.0 * correctAnswers / questions.size());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String finalAnswer = correctAnswers + "/" + questions.size();
+
+            FinalScoreDetailsFragment scoreFragment = new FinalScoreDetailsFragment(username, topic, amount, finalAnswer, finalScore);
+            FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
+            FragmentTransaction tx = fMgr.beginTransaction();
+            tx.add(R.id.fragmentLocation, scoreFragment);
+            tx.replace(R.id.fragmentLocation, scoreFragment);
+            tx.addToBackStack(null);
+            tx.commit();
+
+        /*    AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("You've achieved:  " + correctAnswers + "/" +
                             questions.size() + " correct answers")
                     .setMessage("Do you want to save your score: " + finalScore + "?\n").
@@ -132,6 +148,44 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
                     }).
                     create().show();
+
+         */
+        });
+
+        binding.saveScoreButton.setOnClickListener(clk -> {
+            if (calcualted) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Save your score")
+                        .setMessage("Do you want to save your score: " + finalScore + "?\n").
+                        setPositiveButton("Yes", (dialog, cl) -> {
+
+                            TriviaScore score = new TriviaScore(username, finalScore);
+                            thread = Executors.newSingleThreadExecutor();
+                            thread.execute(() -> {
+                                triviaDao.insert(score);
+                            });
+
+                            finish();
+                        }).
+                        setNegativeButton("No", (dialog, cl) -> {
+
+                        }).
+                        create().show();
+
+              /*  FinalScoreDetailsFragment scoreFragment = new FinalScoreDetailsFragment(username, topic, amount, finalScore);
+                FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
+                FragmentTransaction tx = fMgr.beginTransaction();
+                tx.add(R.id.fragmentLocation, scoreFragment);
+                tx.replace(R.id.fragmentLocation, scoreFragment);
+                tx.addToBackStack(null);
+                tx.commit();
+                */
+            } else {
+                Toast.makeText(this,
+                        "Please calculate score before save final score",
+                        Toast.LENGTH_LONG).show();
+            }
         });
     }
 
@@ -165,8 +219,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                             JSONArray incorrectAnswers = questionObject.getJSONArray("incorrect_answers");
 
                             // Create a new Question object and add it to the list
-                            Question question = new Question(questionText, incorrectAnswers.getString(0),
-                                    incorrectAnswers.getString(1), incorrectAnswers.getString(2), correctAnswer);
+                            Question question = new Question(questionText, correctAnswer);
 
                             //make answers randomly and save them in a arraylist
                             ArrayList<String> options = new ArrayList<String>();
@@ -174,8 +227,10 @@ public class QuizQuestionActivity extends AppCompatActivity {
                             options.add(incorrectAnswers.getString(1));
                             options.add(incorrectAnswers.getString(2));
                             options.add(correctAnswer);
-                            //Collections.shuffle(answers);
-                            question.setOptions(options);
+
+                            //make the options order random
+                            Collections.shuffle(options);
+                            question.setAnswerOptions(options);
 
                             questions.add(question);
                         }
@@ -192,6 +247,9 @@ public class QuizQuestionActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
+    void resetCalculateFlag() {
+        calcualted = false;
+    }
     /**
      * RecyclerView Adapter for holding the individual trivia question views.
      */
@@ -212,7 +270,6 @@ public class QuizQuestionActivity extends AppCompatActivity {
         public QuizQuestionAdapter(Context context, List<Question> questionList) {
             this.context = context;
             this.questionList = questionList;
-            // this.quizModel = quizModel;
         }
 
         /**
@@ -241,7 +298,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
             holder.questionTextView.setText(question.getQuestionText());
 
             //get answers
-            List<String> answers = question.getOptions();
+            List<String> answers = question.getAnswerOptions();
 
             holder.option1RadioButton.setText(answers.get(0));
             holder.option2RadioButton.setText(answers.get(1));
@@ -262,6 +319,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                 } else {
                     question.setCorrect(false);
                 }
+                calcualted = false;
             });
 
             holder.option2RadioButton.setOnClickListener(click -> {
@@ -271,6 +329,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                 } else {
                     question.setCorrect(false);
                 }
+                calcualted = false;
             });
 
             holder.option3RadioButton.setOnClickListener(click -> {
@@ -280,6 +339,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                 } else {
                     question.setCorrect(false);
                 }
+                calcualted = false;
             });
 
             holder.option4RadioButton.setOnClickListener(click -> {
@@ -289,18 +349,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                 } else {
                     question.setCorrect(false);
                 }
-            });
-
-            holder.questionTextView.setOnClickListener(clk -> {
-                if (question != null) {
-                    AnswerDetailsFragment answerFragment = new AnswerDetailsFragment(question);
-                    FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
-                    FragmentTransaction tx = fMgr.beginTransaction();
-                    tx.add(R.id.fragmentLocation, answerFragment);
-                    tx.replace(R.id.fragmentLocation, answerFragment);
-                    tx.addToBackStack(null);
-                    tx.commit();
-                }
+                calcualted = false;
             });
         }
 
@@ -357,4 +406,5 @@ public class QuizQuestionActivity extends AppCompatActivity {
         else if (category.equalsIgnoreCase("Art")) return "25";
         else return "22";
     }
+
 }

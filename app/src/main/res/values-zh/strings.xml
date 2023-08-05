@@ -71,14 +71,13 @@
     <string name="lanfei_inputNameMsg">输入姓名</string>
     <string name="lanfei_searchMsg">获取测试问题</string>
     <string name="lanfei_qeueryScoresMsg">提取以前测试记录</string>
-    <string name="lanfei_SaveQuizMsg">存储结果</string>
+    <string name="lanfei_SaveScoreMsg">存储结果</string>
     <string name="lanfei_amountMsg">测试问题总数 (1-10)</string>
-    <string name="lanfei_nextQuestionMsg">下一个问题</string>
-    <string name="high_score">Query Scores</string>
-    <string name="start_quiz">Start Quiz</string>
-    <string name="topic_hint">Input Topic</string>
-    <string name="name_hint">Input Name</string>
-    <string name="welcome">Welcome Trivia Quiz</string>
-    <string name="trivia_quiz">Triva Quiz</string>
-    <string name="calculate_score">Calculate Final Score</string>
+    <string name="lanfei_triviaQuizMsg">测试题目</string>
+    <string name="lanfei_calculateScoreMsg">计算分数</string>
+    <string name="lanfei_dispalyUsernameMsg">显示用户名</string>
+    <string name="lanfei_displayCategoryMsg">显示问题类别</string>
+    <string name="lanfei_dispayAmountMsg">显示问题总数</string>
+    <string name="lanfei_displayCorrectAnswersMsg">显示正确结果</string>
+    <string name="lanfei_displayScoreMsg">显示分数</string>
 </resources>

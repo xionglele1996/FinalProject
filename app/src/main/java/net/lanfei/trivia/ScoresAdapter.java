@@ -1,5 +1,7 @@
 package net.lanfei.trivia;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.R;
+import net.lanfei.trivia.data.TriviaDatabase;
 import net.lanfei.trivia.data.TriviaScore;
+import net.lanfei.trivia.data.TriviaScoreDao;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 /**
  * Adapter for displaying TriviaScore data in a RecyclerView.
  */
 public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresViewHolder> {
+
+    Context context;
 
     private List<TriviaScore> triviaScores;
 
@@ -26,8 +34,10 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresView
      *
      * @param data The list of TriviaScore data to be displayed.
      */
-    public ScoresAdapter(List<TriviaScore> data) {
+    public ScoresAdapter(List<TriviaScore> data, Context context) {
+
         this.triviaScores = data;
+        this.context = context;
     }
 
     /**
@@ -53,6 +63,27 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresView
         TriviaScore score = triviaScores.get(position);
         holder.bind(score);
 
+        holder.delete.setOnClickListener(click -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Delete this score")
+                    .setMessage("Do you want to delete username=" + score.getUsername() +
+                            " Score=" + score.getScore() + "?\n").
+                    setPositiveButton("Yes", (dialog, cl) -> {
+
+                        Executor thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            TriviaDatabase db = TriviaDatabase.getInstance(context);
+                            TriviaScoreDao triviaDao = db.triviaScoreDAO();
+                            triviaDao.delete(score);
+                        });
+
+                    }).
+                    setNegativeButton("No", (dialog, cl) -> {
+
+                    }).
+                    create().show();
+
+                });
     }
 
     @Override
@@ -66,14 +97,17 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresView
      */
     public class ScoresViewHolder extends RecyclerView.ViewHolder {
 
+        private TriviaScore score;
         private TextView nameTextView;
         private TextView scoreTextView;
+        private TextView delete;
 
         public ScoresViewHolder(@NonNull View itemView) {
             super(itemView);
             // Initialize the views in the ViewHolder
             this.nameTextView = itemView.findViewById(R.id.textView_username);
             this.scoreTextView = itemView.findViewById(R.id.textView_score);
+            this.delete =  itemView.findViewById(R.id.textView_delete);
         }
 
         /**
@@ -84,6 +118,7 @@ public class ScoresAdapter extends RecyclerView.Adapter<ScoresAdapter.ScoresView
         public void bind(TriviaScore score) {
             nameTextView.setText(score.getUsername());
             scoreTextView.setText(String.valueOf(score.getScore()));
+            this.score = score;
         }
     }
 }

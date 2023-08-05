@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         usernameEdit = findViewById(R.id.lanfeiUsername);
 
         recyclerViewScores = findViewById(R.id.lanfeRecyclerViewScores);
-        triviaScoreAdapter = new ScoresAdapter(triviaScores);  // Initialize with empty list
+        triviaScoreAdapter = new ScoresAdapter(triviaScores, this);  // Initialize with empty list
         recyclerViewScores.setAdapter(triviaScoreAdapter);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
 
