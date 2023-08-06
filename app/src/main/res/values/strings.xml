@@ -71,10 +71,17 @@
     <string name="river_details_link">Links: </string>
 
     <string name="lanfei_help">Help</string>
-    <string name="lanfei_inputNameMsg">Enter Your Name</string>
-    <string name="lanfei_searchMsg">Search Questions</string>
+    <string name="lanfei_inputNameMsg">Enter User Name</string>
+    <string name="lanfei_searchMsg">Start Quiz</string>
     <string name="lanfei_qeueryScoresMsg">Query Trivia Scores</string>
-    <string name="lanfei_SaveQuizMsg">Save Quiz</string>
-    <string name="lele_deleteMsg">DELETE</string>
-
+    <string name="lanfei_SaveScoreMsg">Save Quiz Score</string>
+    <string name="lanfei_amountMsg">Amount (1-10)</string>
+    <string name="lanfei_triviaQuizMsg">Triva Quiz</string>
+    <string name="lanfei_calculateScoreMsg">Calculate Final Score</string>
+    <string name="lanfei_dispalyUsernameMsg">Display Username</string>
+    <string name="lanfei_displayCategoryMsg">Display Category</string>
+    <string name="lanfei_dispayAmountMsg">Display number of questions</string>
+    <string name="lanfei_displayCorrectAnswersMsg">Display Correct Answers</string>
+    <string name="lanfei_displayScoreMsg">Display Final Score</string>
+    <string name="lanfei_deleteMsg">Delete</string>
 </resources>

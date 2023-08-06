@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="net.matthew.converter.MainActivity">
+    tools:context="net.lanfei.trivia.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/triviaToolbar"
@@ -14,55 +14,54 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <Button
-        android:id="@+id/lanfeiBtnQuery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/triviaToolbar"
-        android:layout_marginTop="16dp"
-        android:text="@string/lanfei_qeueryScoresMsg" />
-
     <EditText
-        android:id="@+id/lanfeiTrivianame"
-        android:layout_width="match_parent"
+        android:id="@+id/lanfeiUsername"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lanfeiBtnQuery"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/triviaToolbar"
+        android:layout_marginTop="5dp"
         android:hint="@string/lanfei_inputNameMsg"
         android:inputType="text" />
 
     <Spinner
         android:id="@+id/category"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lanfeiTrivianame"
-        android:layout_marginTop="10dp" />
+        android:layout_below="@id/lanfeiUsername"
+        android:layout_marginTop="5dp" />
+
+    <EditText
+        android:id="@+id/lanfeiQuestionAmount"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category"
+        android:layout_marginTop="5dp"
+        android:hint="@string/lanfei_amountMsg"
+        android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/lanfeiBtnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/category"
+        android:layout_below="@id/lanfeiQuestionAmount"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="@string/lanfei_searchMsg" />
 
     <Button
-        android:id="@+id/lanfei_btnQuiz"
+        android:id="@+id/lanfeiBtnQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lanfeiBtnSearch"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/lanfei_SaveQuizMsg" />
+        android:layout_below="@id/lanfeiBtnSearch"
+        android:layout_marginTop="10dp"
+        android:text="@string/lanfei_qeueryScoresMsg" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_queries"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lanfei_btnQuiz"
-        android:layout_marginTop="16dp" />
-
+        android:id="@+id/lanfeRecyclerViewScores"
+        android:layout_width="353dp"
+        android:layout_height="340dp"
+        android:layout_below="@id/lanfeiBtnQuery"
+        android:layout_marginTop="12dp" />
 
 </RelativeLayout>
