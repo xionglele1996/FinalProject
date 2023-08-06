@@ -1,5 +1,6 @@
 package net.lele.flighttracker;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,17 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import net.databinding.LeleFlightDetailsBinding;
+
+import net.databinding.LeleSavedFlightDetailsBinding;
 import net.lele.flighttracker.data.FlightViewModel;
-/**
- * Fragment to display the details of a selected flight.
- * It allows the user to view detailed information about a specific flight, such as flight number,
- * arrival airport, terminal, gate, and delay information.
- */
-public class DetailsFragment extends Fragment {
+
+public class SavedDetailFragment extends Fragment {
     private static final String ARG_FLIGHT = "flight";
 
     private Flight selectedFlight;
@@ -30,8 +29,8 @@ public class DetailsFragment extends Fragment {
      * @param flight The flight object to be displayed.
      * @return A new instance of fragment DetailsFragment.
      */
-    public static DetailsFragment newInstance(Flight flight) {
-        DetailsFragment fragment = new DetailsFragment();
+    public static SavedDetailFragment newInstance(Flight flight) {
+        SavedDetailFragment fragment = new SavedDetailFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_FLIGHT, flight);
@@ -70,7 +69,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        LeleFlightDetailsBinding binding = LeleFlightDetailsBinding.inflate(inflater);
+        LeleSavedFlightDetailsBinding binding = LeleSavedFlightDetailsBinding.inflate(inflater);
         binding.tvFlightNumber.setText(String.format("Flight Number: %s", selectedFlight.getFlightNumber()));
         binding.tvArrivalAirport.setText(String.format("Arrival Airport: %s Airport", selectedFlight.getDestinationAirport()));
         binding.tvTerminal.setText(String.format("Departure Terminal: %s", selectedFlight.getTerminal()));
@@ -82,16 +81,29 @@ public class DetailsFragment extends Fragment {
             binding.tvDelay.setText("Flight is on time for departure.");
         }
 
-        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // save the flight to database
-                flightViewModel.insertFlight(selectedFlight);
+                new AlertDialog.Builder(getActivity()) // Use getActivity() here since you are inside a fragment
+                        .setTitle("Delete Flight")
+                        .setMessage("Do you want to delete this flight?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Remove the flight from the database
+                                flightViewModel.deleteFlight(selectedFlight);
 
-                // display success message
-                Toast.makeText(getActivity(), "Flight saved successfully", Toast.LENGTH_LONG).show();
+                                // Display success message
+                                Toast.makeText(getActivity(), "Flight deleted successfully", Toast.LENGTH_LONG).show();
+
+                                // Optionally, you may want to navigate back or update the UI after deletion
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
+
 
 
 

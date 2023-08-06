@@ -34,7 +34,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+/**
+ * Main activity class that displays the user interface to input airport codes,
+ * search for flights, and view saved flights. It handles user interactions,
+ * validates input, makes requests to the flight data API, and navigates
+ * to other activities.
+ */
 public class MainActivity extends AppCompatActivity {
     private LeleActivityMainBinding binding;
     private SharedPreferences sharedPreferences;
@@ -43,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /**
+     * Initializes the activity, setting up views, event handlers,
+     * SharedPreferences, and displaying a welcome message.
+     *
+     * @param savedInstanceState Information about the saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,12 +114,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inflates the options menu.
+     *
+     * @param menu Menu object to be populated.
+     * @return true if the menu is to be displayed.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lele_menu, menu);
         return true;
     }
 
+    /**
+     * Handles option item selections.
+     *
+     * @param item The selected menu item.
+     * @return true if the menu item selection is handled.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -132,8 +155,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    /**
+     * Shows an error Snackbar with the specified message.
+     *
+     * @param messageResource Resource ID of the error message to be displayed.
+     */
     private void showErrorSnackbar(int messageResource) {
         String message = getString(messageResource);
         Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_LONG)
@@ -146,6 +172,13 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Executes the search for flights based on the given airport code.
+     * Retrieves flight data from the API, creates Flight objects,
+     * and starts the SearchResult activity.
+     *
+     * @param airportCode The airport code to search for.
+     */
     private void executeSearch(String airportCode) {
         String url = "https://api.aviationstack.com/v1/flights?access_key=e3c79e5ce306d9344a70ce63c58f9081&dep_iata=" + airportCode;
 
