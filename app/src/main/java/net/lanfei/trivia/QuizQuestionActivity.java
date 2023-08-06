@@ -64,6 +64,8 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
     boolean calcualted = false;
 
+    TriviaDatabase db;
+
     /**
      * Initializes the quiz question activity and sets up UI components and event listeners.
      *
@@ -88,10 +90,10 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
         binding.categoryTextView.setText(" for " + topic + " Questions");
 
-        TriviaDatabase db = Room.databaseBuilder(getApplicationContext(),
+        // initialize the trivia database
+        db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
 
-        TriviaScoreDao triviaDao = db.triviaScoreDAO();
 
         // Set up the RecyclerView and adapter
         myAdapter = new QuizQuestionAdapter(this, questions);
@@ -235,7 +237,6 @@ public class QuizQuestionActivity extends AppCompatActivity {
                         TriviaScore score = new TriviaScore(username, finalScore);
                         thread = Executors.newSingleThreadExecutor();
                         thread.execute(() -> {
-                            TriviaDatabase db = TriviaDatabase.getInstance(this);
                             db.triviaScoreDAO().insert(score);
                         });
 
