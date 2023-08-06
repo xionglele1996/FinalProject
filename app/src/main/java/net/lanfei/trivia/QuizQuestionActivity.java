@@ -94,15 +94,13 @@ public class QuizQuestionActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
 
-
         // Set up the RecyclerView and adapter
         myAdapter = new QuizQuestionAdapter(this, questions);
-
         binding.recycleView.setAdapter(myAdapter);
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        String categoryNum = getCategoryNumber(topic);
         // Load the questions from the API
+        String categoryNum = getCategoryNumber(topic);
         loadQuestions(amount, categoryNum);
 
         // calcualte final score and display score details in fragment

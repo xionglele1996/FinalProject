@@ -82,13 +82,14 @@ public class MainActivity extends AppCompatActivity {
         toolbar = binding.triviaToolbar;
         setSupportActionBar(toolbar);
 
+        // items on the Main Activity layout
         amountEdit = binding.lanfeiQuestionAmount;
         spinnerCategory = findViewById(R.id.category);
         startQuizButton = findViewById(R.id.lanfeiBtnSearch);
         queryScoresButton = findViewById(R.id.lanfeiBtnQuery);
-
         usernameEdit = findViewById(R.id.lanfeiUsername);
 
+        // Set up the RecyclerView and adapter for query scores
         recyclerViewScores = findViewById(R.id.lanfeRecyclerViewScores);
         triviaScoreAdapter = new ScoresAdapter(triviaScores, this);  // Initialize with empty list
         recyclerViewScores.setAdapter(triviaScoreAdapter);
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
 
+        // Spinner for the question category
         List<String> categories = getCategories();
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         spinnerCategory.setAdapter(spinnerAdapter);
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     "Show the top 10 scores from previous users",
                     Snackbar.LENGTH_LONG).show();
 
+            // query the scores
             queryScores();
         });
 
