@@ -5,6 +5,7 @@
 package net.lanfei.trivia;
 
 // Import statements
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +42,7 @@ import java.util.concurrent.Executor;
 
 
 /**
- * MainActivity class extending AppCompatActivity.
+ * MainActivity class extending AppCompatActivity for Trivia Questions application.
  */
 public class MainActivity extends AppCompatActivity {
     private LanfeiActivityMainBinding binding;
@@ -50,17 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Spinner spinnerCategory;
 
-    private Button searchButton;
+    private Button startQuizButton;
     private Button queryScoresButton;
-    private Button saveButton;
 
     private EditText amountEdit;
     private EditText usernameEdit;
 
     private ScoresAdapter triviaScoreAdapter;
-
-    private TriviaScore lastScore = null;
-    private int score = 80;
 
     private List<TriviaScore> triviaScores = new ArrayList<TriviaScore>();
 
@@ -68,14 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewScores;
 
-    private Executor thread;
-
     /**
      * Initializes the main activity and sets up UI components and event listeners.
      *
      * @param savedInstanceState The saved instance state bundle.
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         amountEdit = binding.lanfeiQuestionAmount;
         spinnerCategory = findViewById(R.id.category);
-        searchButton = findViewById(R.id.lanfeiBtnSearch);
+        startQuizButton = findViewById(R.id.lanfeiBtnSearch);
         queryScoresButton = findViewById(R.id.lanfeiBtnQuery);
 
         usernameEdit = findViewById(R.id.lanfeiUsername);
@@ -99,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
         TriviaDatabase db = Room.databaseBuilder(getApplicationContext(),
                 TriviaDatabase.class, "TriviaScore").build();
-
         triviaDao = db.triviaScoreDAO();
 
         List<String> categories = getCategories();
@@ -122,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             usernameEdit.setText(lastUser);
         }
 
-        searchButton.setOnClickListener(clk -> {
+        // start quiz button
+        startQuizButton.setOnClickListener(clk -> {
 
             String topic = spinnerCategory.getSelectedItem().toString();
             String categoryNum = getCategoryNumber(spinnerCategory.getSelectedItem().toString());
@@ -140,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                             + " and " + amount + " questions",
                     Toast.LENGTH_LONG).show();
 
-            //Start the quiz activity with user name and selected topic
+            //Start the quiz question activity, put the username, amount and topic in next page
             Intent nextPage = new Intent(this, QuizQuestionActivity.class);
             nextPage.putExtra("LoginName", username);
             nextPage.putExtra("Amount", amount);
@@ -148,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(nextPage);
         });
 
+        // query the top 10 scores from database
         queryScoresButton.setOnClickListener(clk -> {
             Snackbar.make(this.getCurrentFocus(),
                     "Show the top 10 scores from previous users",
@@ -183,10 +178,12 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.trivia_help) {
             new AlertDialog.Builder(this)
                     .setTitle("Help")
-                    .setMessage("Trivia questions. \n" +
-                            "Click Query Trivia Scores button to display the last 10 scores.\n" +
+                    .setMessage("Trivia questions with version 1.0 from Fei Lan. \n" +
+                            "Input user name. \n" +
                             "Select a topic for new quize questions.\n" +
-                            "Click Start Quiz to list questions\n")
+                            "Input the question amount (1-10).\n" +
+                            "Click Start Quiz to start a new quiz\n" +
+                            "Click Query Trivia Scores button to display the top 10 scores.\n")
                     .setPositiveButton("OK", null)
                     .show();
             return true;

@@ -1,8 +1,3 @@
-/**
- * This class represents the activity for taking a quiz with trivia questions.
- * It allows the user to answer questions, calculate the total score, and save the score in a local database.
- * The questions are fetched from an external API and displayed in a RecyclerView.
- */
 package net.lanfei.trivia;
 // Import statements
 
@@ -49,6 +44,9 @@ import net.lanfei.trivia.data.TriviaScoreDao;
 
 /**
  * QuizQuestionActivity class extending AppCompatActivity.
+ * This class represents the activity for taking a quiz with trivia questions. It allows the user
+ * to answer questions, calculate the final score, and save the score in a local database.
+ * The questions are fetched from an external API and displayed in a RecyclerView.
  */
 public class QuizQuestionActivity extends AppCompatActivity {
 
@@ -105,87 +103,14 @@ public class QuizQuestionActivity extends AppCompatActivity {
         // Load the questions from the API
         loadQuestions(amount, categoryNum);
 
+        // calcualte final score and display score details in fragment
         binding.calculateScoreButton.setOnClickListener(clk -> {
-            calcualted = true;
-            finalScore = 0;
-            int correctAnswers = 0;
-
-            // count the correct answers
-            for (Question question : questions) {
-                if (question.isCorrect()) {
-                    correctAnswers++;
-                }
-            }
-
-            // round the score to integer
-            finalScore = (int) Math.ceil(100.0 * correctAnswers / questions.size());
-
-            String finalAnswer = correctAnswers + "/" + questions.size();
-
-            FinalScoreDetailsFragment scoreFragment = new FinalScoreDetailsFragment(username, topic, amount, finalAnswer, finalScore);
-            FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
-            FragmentTransaction tx = fMgr.beginTransaction();
-            tx.add(R.id.fragmentLocation, scoreFragment);
-            tx.replace(R.id.fragmentLocation, scoreFragment);
-            tx.addToBackStack(null);
-            tx.commit();
-
-        /*    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You've achieved:  " + correctAnswers + "/" +
-                            questions.size() + " correct answers")
-                    .setMessage("Do you want to save your score: " + finalScore + "?\n").
-                    setPositiveButton("Yes", (dialog, cl) -> {
-
-                        TriviaScore score = new TriviaScore(username, finalScore);
-                        thread = Executors.newSingleThreadExecutor();
-                        thread.execute(() -> {
-                            triviaDao.insert(score);
-                        });
-
-                        finish();
-                    }).
-                    setNegativeButton("No", (dialog, cl) -> {
-
-                    }).
-                    create().show();
-
-         */
+            calculateScore(username, topic, amount);
         });
 
+        // save the final score in database
         binding.saveScoreButton.setOnClickListener(clk -> {
-            if (calcualted) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Save your score")
-                        .setMessage("Do you want to save your score: " + finalScore + "?\n").
-                        setPositiveButton("Yes", (dialog, cl) -> {
-
-                            TriviaScore score = new TriviaScore(username, finalScore);
-                            thread = Executors.newSingleThreadExecutor();
-                            thread.execute(() -> {
-                                triviaDao.insert(score);
-                            });
-
-                            finish();
-                        }).
-                        setNegativeButton("No", (dialog, cl) -> {
-
-                        }).
-                        create().show();
-
-              /*  FinalScoreDetailsFragment scoreFragment = new FinalScoreDetailsFragment(username, topic, amount, finalScore);
-                FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
-                FragmentTransaction tx = fMgr.beginTransaction();
-                tx.add(R.id.fragmentLocation, scoreFragment);
-                tx.replace(R.id.fragmentLocation, scoreFragment);
-                tx.addToBackStack(null);
-                tx.commit();
-                */
-            } else {
-                Toast.makeText(this,
-                        "Please calculate score before save final score",
-                        Toast.LENGTH_LONG).show();
-            }
+            saveScore(username);
         });
     }
 
@@ -221,7 +146,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                             // Create a new Question object and add it to the list
                             Question question = new Question(questionText, correctAnswer);
 
-                            //make answers randomly and save them in a arraylist
+                            //save answer options in a arraylist
                             ArrayList<String> options = new ArrayList<String>();
                             options.add(incorrectAnswers.getString(0));
                             options.add(incorrectAnswers.getString(1));
@@ -247,9 +172,88 @@ public class QuizQuestionActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    void resetCalculateFlag() {
-        calcualted = false;
+    /**
+     * Calculates the final score based on the number of correct answers and displays the score details in a fragment.
+     *
+     * <p>This method takes the provided username, topic, and amount, and calculates the final score based on the number
+     * of correct answers in the 'questions' list. The final score is rounded to an integer percentage. The score details
+     * are then displayed in a {@link FinalScoreDetailsFragment} with the provided username, topic, amount, countScore,
+     * and finalScore. The fragment is added to the fragment container and displayed on the screen.
+     *
+     * @param username The username of the quiz taker.
+     * @param topic    The selected topic of the quiz.
+     * @param amount   The selected amount of questions in the quiz.
+     */
+    private void calculateScore(String username, String topic, String amount) {
+        calcualted = true;
+        finalScore = 0;
+        int correctAnswerCount = 0;
+
+        // count the correct answers
+        for (Question question : questions) {
+            if (question.isCorrect()) {
+                correctAnswerCount++;
+            }
+        }
+
+        // round the score to integer
+        finalScore = (int) Math.ceil(100.0 * correctAnswerCount / questions.size());
+        String countScore = correctAnswerCount + "/" + questions.size();
+
+        // display the final score details in the fragment
+        FinalScoreDetailsFragment scoreFragment = new FinalScoreDetailsFragment(username, topic, amount, countScore, finalScore);
+        FragmentManager fMgr = ((QuizQuestionActivity) context).getSupportFragmentManager();
+        FragmentTransaction tx = fMgr.beginTransaction();
+        tx.add(R.id.fragmentLocation, scoreFragment);
+        tx.replace(R.id.fragmentLocation, scoreFragment);
+        tx.addToBackStack(null);
+        tx.commit();
     }
+
+    /**
+     * Saves the final score to the database if the score has been calculated and confirmed by the user.
+     *
+     * <p>If the 'calcualted' flag is true, indicating that the final score has been calculated, the
+     * method displays an AlertDialog to prompt the user to save the score. If the user confirms the
+     * score saving, a new {@link TriviaScore} object is created with the provided username and final
+     * score, and it is inserted into the database using a new thread. The activity is then finished.
+     * If the user chooses not to save the score, no action is taken.
+     *
+     * <p>If the 'calcualted' flag is false, indicating that the final score has not been calculated,
+     * an AlertDialog is shown with a message indicating that the score cannot be saved until it is
+     * calculated.
+     *
+     * @param username The username of the quiz taker.
+     */
+    private void saveScore(String username) {
+        if (calcualted) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Save your score")
+                    .setMessage("Do you want to save your score: " + finalScore + "?\n").
+                    setPositiveButton("Yes", (dialog, cl) -> {
+
+                        TriviaScore score = new TriviaScore(username, finalScore);
+                        thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            TriviaDatabase db = TriviaDatabase.getInstance(this);
+                            db.triviaScoreDAO().insert(score);
+                        });
+
+                        finish();
+                    }).
+                    setNegativeButton("No", (dialog, cl) -> {
+
+                    }).
+                    create().show();
+        } else {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Cannot Save")
+                    .setMessage("Please calculate score before save final score.\n")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+    }
+
     /**
      * RecyclerView Adapter for holding the individual trivia question views.
      */

@@ -8,11 +8,14 @@ public class Question {
 
     private String questionText;
 
+    // the correct answer
     private String correctOption;
 
+    // the options of with all correct and wrong answers
     @Ignore
     private ArrayList<String> answerOptions;
 
+    // set to true if the answer is correct
     private boolean correct = false;
 
     // Constructor
@@ -23,17 +26,14 @@ public class Question {
 
     // Getters and setters
     public String getQuestionText() {
-
         return questionText;
     }
 
     public void setQuestionText(String questionText) {
-
         this.questionText = questionText;
     }
 
     public String getCorrectOption() {
-
         return correctOption;
     }
 
@@ -49,6 +49,9 @@ public class Question {
         this.answerOptions = answerOptions;
     }
 
+    /**
+     * @return true if the answer is correct
+     */
     public boolean isCorrect() {
         return correct;
     }

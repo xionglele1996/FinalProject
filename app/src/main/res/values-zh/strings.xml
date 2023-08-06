@@ -80,4 +80,5 @@
     <string name="lanfei_dispayAmountMsg">显示问题总数</string>
     <string name="lanfei_displayCorrectAnswersMsg">显示正确结果</string>
     <string name="lanfei_displayScoreMsg">显示分数</string>
+    <string name="lanfei_deleteMsg">删除</string>
 </resources>

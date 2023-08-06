@@ -18,12 +18,12 @@
         android:layout_weight="1"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/textView_delete"
-        android:layout_width="10dp"
+    <Button
+        android:id="@+id/lanfei_button_delete"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16sp"
-        android:text="Delete"/>
+        android:textSize="12sp"
+        android:text="@string/lanfei_deleteMsg"/>
 
 </LinearLayout>
