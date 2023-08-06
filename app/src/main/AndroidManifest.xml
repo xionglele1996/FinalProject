@@ -35,6 +35,9 @@
             android:name=".lanfei.trivia.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".lanfei.trivia.QuizQuestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".lele.flighttracker.MainActivity"
             android:exported="false" />
         <activity
