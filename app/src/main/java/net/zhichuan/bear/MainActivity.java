@@ -13,11 +13,6 @@ import net.databinding.RiverActivityMainBinding;
  */
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * This method is called when the activity is created.
-     *
-     * @param savedInstanceState The saved instance state.
-     */
     RiverActivityMainBinding binding;
 
     /**
